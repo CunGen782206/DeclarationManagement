@@ -9,23 +9,25 @@ public class ApprovalRecord
     public int ApprovalID { get; set; }
 
     [Required]
-    public int FormID { get; set; }
-
-    [ForeignKey("FormID")]
-    public ApplicationForm ApplicationForm { get; set; }
+    public int ApplicantID { get; set; }
 
     [Required]
     public int ApproverID { get; set; }
 
-    [ForeignKey("ApproverID")]
-    public User Approver { get; set; }
+    [Required]
+    public DateTime ApprovalDate { get; set; }
 
     [Required]
-    public DateTime ApprovalDate { get; set; } = DateTime.Now;
+    public bool Decision { get; set; }
 
-    [Required]
-    public bool Decision { get; set; } // true: 同意，false: 拒绝
-
+    [StringLength(8000)]
     public string Comments { get; set; }
+
+    // 导航属性
+    [ForeignKey("ApplicantID")]
+    public virtual ApplicationForm ApplicationForm { get; set; }
+
+    [ForeignKey("ApproverID")]
+    public virtual User Approver { get; set; }
     
 }

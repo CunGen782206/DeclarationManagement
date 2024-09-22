@@ -5,9 +5,16 @@ namespace DeclarationManagement.Model;
 
 public class ApprovalFlow
 {
-    [Key] public int FlowID { get; set; }
+    [Key]
+    public int RequestID { get; set; }
 
-    [Required] public int StepNumber { get; set; } // 流程步骤编号
+    [Required]
+    public int StepNumber { get; set; }
 
-    [Required] [StringLength(50)] public string Role { get; set; } // 该步骤对应的审批角色
+    [Required]
+    public int RequestType { get; set; }   // 关联User表UserID
+
+    // 导航属性
+    [ForeignKey("RequestType")]
+    public virtual User RequestUser { get; set; }
 }

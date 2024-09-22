@@ -1,4 +1,5 @@
-namespace DeclarationManagement;
+using DeclarationManagement;
+using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
@@ -6,44 +7,40 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-        builder.Services.AddAuthorization();
+// 添加服务到容器中
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// 配置 Entity Framework 和 SQL Server
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 添加控制器
+        builder.Services.AddControllers();
+
+// 配置 Swagger/OpenAPI
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+// 可选：添加身份验证和授权服务
+// builder.Services.AddAuthentication();
+// builder.Services.AddAuthorization();
+
         var app = builder.Build();
 
-        
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment()) // 只在开发环境启用
+// 配置 HTTP 请求管道
+        if (app.Environment.IsDevelopment()) // 仅在开发环境中启用
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
         app.UseHttpsRedirection();
+
+// 可选：使用身份验证和授权
+// app.UseAuthentication();
         app.UseAuthorization();
-        var summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
-        app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-        {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                .ToArray();
-            return forecast;
-        });
+        app.MapControllers();
 
-        app.MapGet("/greet/{name}", (string name) => $"Hello, {name}!");
-        
         app.Run();
     }
 }

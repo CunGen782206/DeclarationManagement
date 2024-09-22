@@ -5,79 +5,90 @@ namespace DeclarationManagement.Model;
 
 public class ApplicationForm
 {
-    [Key]
-    public int FormID { get; set; }
+  [Key]
+        public int FormID { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string ProjectLeader { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string ProjectLeader { get; set; }
 
-    [StringLength(50)]
-    public string ContactWay { get; set; }
+        [StringLength(50)]
+        public string ContactWay { get; set; }
 
-    [StringLength(50)]
-    public string DepartmentID { get; set; } // 修改为字符串类型，且不作为外键
+        [StringLength(50)]
+        public string Department { get; set; }
 
-    [Required]
-    [StringLength(150)]
-    public string ProjectName { get; set; }
+        [Required]
+        [StringLength(150)]
+        public string ProjectName { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string ProjectCategory { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string ProjectCategory { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string ProjectLevel { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string ProjectLevel { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string AwardLevel { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string AwardLevel { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string ParticipationForm { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string ParticipationForm { get; set; }
 
-    [Required]
-    [StringLength(500)]
-    public string ApprovalFileName { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string ApprovalFileName { get; set; }
 
-    [Required]
-    [StringLength(500)]
-    public string ApprovalFileNumber { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string ApprovalFileNumber { get; set; }
 
-    [Required]
-    public string ItemDescription { get; set; }
+        [Required]
+        [StringLength(8000)]
+        public string ItemDescription { get; set; }
 
-    [Required]
-    public string ProjectOutcome { get; set; }
+        [Required]
+        [StringLength(8000)]
+        public string ProjectOutcome { get; set; }
 
-    public bool? Decision { get; set; }
+        [Required]
+        public bool Decision { get; set; }
 
-    [StringLength(50)]
-    public string AuditDepartment { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string AuditDepartment { get; set; }
 
-    public string Comments { get; set; }
+        [Required]
+        [StringLength(8000)]
+        public string Comments { get; set; }
 
-    [StringLength(50)]
-    public string RecognitionLevel { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string RecognitionLevel { get; set; }
 
-    public decimal? DeemedAmount { get; set; }
+        [Required]
+        public decimal DeemedAmount { get; set; }
 
-    public string Remarks { get; set; }
+        [Required]
+        [StringLength(8000)]
+        public string Remarks { get; set; }
 
-    [Required]
-    public int UserID { get; set; }
+        [Required]
+        public int UserID { get; set; }
 
-    [ForeignKey("UserID")]
-    public User User { get; set; }
+        [Required]
+        public bool State { get; set; } = false;    // 0表示查看，1表示修改
 
-    [Required]
-    public bool State { get; set; } = false;
+        [Required]
+        public DateTime ApprovalDate { get; set; }
 
-    [Required]
-    public DateTime ApplicationDate { get; set; } = DateTime.Now;
+        [Required]
+        public bool ApprovalEnding { get; set; } = false;   // 0表示审核未完成，1表示完成
 
-    [Required]
-    public bool ApprovalEnding { get; set; } = false;
+        // 导航属性
+        [ForeignKey("UserID")]
+        public virtual User User { get; set; }
 }
