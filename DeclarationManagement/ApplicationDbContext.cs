@@ -1,5 +1,6 @@
 ﻿using DeclarationManagement.Model;
 using Microsoft.EntityFrameworkCore;
+
 namespace DeclarationManagement;
 
 public class ApplicationDbContext : DbContext
@@ -15,5 +16,9 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // 如果需要进一步配置，可以在此重写 OnModelCreating 方法
+    // 可选：配置模型关系和约束
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // 在此定义外键、关系和表配置
+    }
 }

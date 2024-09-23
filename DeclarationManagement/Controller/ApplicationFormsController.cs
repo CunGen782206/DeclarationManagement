@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 public class ApplicationFormsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+
     public ApplicationFormsController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // 获取当前用户的所有表单
+    // GET: api/ApplicationForms
     [HttpGet]
     public IActionResult GetUserForms()
     {
@@ -25,64 +26,16 @@ public class ApplicationFormsController : ControllerBase
             {
                 f.FormID,
                 f.ProjectName,
-                ButtonLabel = f.State ? "查看" : "修改",
-                Status = f.ApprovalEnding == false && f.State == false ? "已驳回" :
-                         f.ApprovalEnding == true ? "审批通过" : "待审批"
+                ButtonLabel = !f.State ? "修改" : "查看",
+                Status = !f.ApprovalEnding && !f.State ? "已驳回" :
+                    f.ApprovalEnding ? "审批通过" : "待审批"
             })
             .ToList();
 
         return Ok(forms);
     }
 
-    // 查看表单详情
-    [HttpGet("{id}")]
-    public IActionResult GetForm(int id)
-    {
-        var form = _context.ApplicationForms.Find(id);
-        if (form == null)
-        {
-            return NotFound();
-        }
-        return Ok(form);
-    }
-
-    // 修改表单
-    [HttpPut("{id}")]
-    public IActionResult UpdateForm(int id, [FromBody] ApplicationForm model)
-    {
-        var form = _context.ApplicationForms.Find(id);
-        if (form == null)
-        {
-            return NotFound();
-        }
-
-        if (form.State == false)
-        {
-            // 更新表单内容
-            form.ProjectName = model.ProjectName;
-            // 其他字段更新
-            form.State = true; // 修改后设置为可查看状态
-
-            // 推送到下一个审核用户的审批表汇总
-            var nextApprover = GetNextApprover();
-            _context.TableSummaries.Add(new TableSummary
-            {
-                UserID = nextApprover.UserID,
-                ApplicantID = form.FormID,
-                State = false,
-                ApprovalEnding = false
-            });
-
-            _context.SaveChanges();
-            return Ok();
-        }
-        else
-        {
-            return BadRequest("表单当前不可修改");
-        }
-    }
-
-    // 新建表单申请
+    // POST: api/ApplicationForms
     [HttpPost]
     public IActionResult CreateForm([FromBody] ApplicationForm model)
     {
@@ -95,29 +48,72 @@ public class ApplicationFormsController : ControllerBase
         _context.ApplicationForms.Add(model);
         _context.SaveChanges();
 
-        // 推送到下一个审核用户的审批表汇总
+        // 推送到下一个审批人的汇总表
         var nextApprover = GetNextApprover();
-        _context.TableSummaries.Add(new TableSummary
+        if (nextApprover != null)
         {
-            UserID = nextApprover.UserID,
-            ApplicantID = model.FormID,
-            State = false,
-            ApprovalEnding = false
-        });
+            _context.TableSummaries.Add(new TableSummary
+            {
+                UserID = nextApprover.UserID,
+                ApplicantID = model.FormID,
+                State = false,
+                ApprovalEnding = false
+            });
+            _context.SaveChanges();
+        }
 
-        _context.SaveChanges();
-        return Ok();
+        return Ok(model);
+    }
+
+    // PUT: api/ApplicationForms/{id}
+    [HttpPut("{id}")]
+    public IActionResult UpdateForm(int id, [FromBody] ApplicationForm model)
+    {
+        var form = _context.ApplicationForms.Find(id);
+        if (form == null)
+        {
+            return NotFound();
+        }
+
+        if (!form.State)
+        {
+            // 根据需要更新表单字段
+            form.ProjectName = model.ProjectName;
+            // ... 更新其他字段
+
+            form.State = true; // 修改后设置为“查看”状态
+
+            // 推送到下一个审批人的汇总表
+            var nextApprover = GetNextApprover();
+            if (nextApprover != null)
+            {
+                _context.TableSummaries.Add(new TableSummary
+                {
+                    UserID = nextApprover.UserID,
+                    ApplicantID = form.FormID,
+                    State = false,
+                    ApprovalEnding = false
+                });
+            }
+
+            _context.SaveChanges();
+            return Ok(form);
+        }
+        else
+        {
+            return BadRequest("当前状态下无法修改表单。");
+        }
     }
 
     private int GetCurrentUserId()
     {
-        // 获取当前登录用户的ID（此处省略具体实现）
-        return 1;
+        // 实现获取当前用户 ID 的逻辑
+        return 1; // 占位符值
     }
 
     private User GetNextApprover()
     {
-        // 获取下一个审批用户（此处需要根据审批流程表实现）
+        // 根据您的审批流程实现获取下一个审批人的逻辑
         return _context.Users.FirstOrDefault(u => u.Power == "审批用户");
     }
 }

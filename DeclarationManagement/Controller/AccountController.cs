@@ -11,6 +11,7 @@ public class AccountController : ControllerBase
         _context = context;
     }
 
+    // POST: api/Account/login
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginViewModel model)
     {
@@ -20,14 +21,14 @@ public class AccountController : ControllerBase
             return Unauthorized("用户名或密码错误");
         }
 
-        // 生成 JWT 或其他身份验证令牌（此处省略）
+        // 如果需要，在此生成身份验证令牌（例如 JWT）
 
         return Ok(new { user.UserID, user.Username, user.Role, user.Power });
     }
 
     private bool VerifyPassword(string inputPassword, byte[] storedHash)
     {
-        // 实现密码验证逻辑，例如使用哈希算法（此处省略具体实现）
+        // 实现密码验证逻辑，例如哈希并比较
         return true;
     }
 }

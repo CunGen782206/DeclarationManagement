@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 public class ApprovalsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+
     public ApprovalsController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // 获取需要审批的表单
+    // GET: api/Approvals
     [HttpGet]
     public IActionResult GetPendingApprovals()
     {
@@ -24,16 +25,16 @@ public class ApprovalsController : ControllerBase
             .Select(ts => new
             {
                 ts.ApplicantID,
-                ButtonLabel = ts.State ? "查看" : "审核",
-                Status = ts.ApprovalEnding == false && ts.State == false ? "已驳回" :
-                         ts.ApprovalEnding == true ? "已审核" : "待审核"
+                ButtonLabel = !ts.State ? "审核" : "查看",
+                Status = !ts.ApprovalEnding && !ts.State ? "已驳回" :
+                    ts.ApprovalEnding ? "已审核" : "待审核"
             })
             .ToList();
 
         return Ok(approvals);
     }
 
-    // 审核表单
+    // POST: api/Approvals/{id}/review
     [HttpPost("{id}/review")]
     public IActionResult ReviewForm(int id, [FromBody] ReviewViewModel model)
     {
@@ -44,25 +45,29 @@ public class ApprovalsController : ControllerBase
 
         if (tableSummary == null)
         {
-            return NotFound("未找到需要审核的表单");
+            return NotFound("未找到需要审批的表单。");
         }
 
         var form = _context.ApplicationForms.Find(id);
+        if (form == null)
+        {
+            return NotFound("申请表单不存在。");
+        }
 
         // 添加审批记录
-        _context.ApprovalRecords.Add(new ApprovalRecord
+        var approvalRecord = new ApprovalRecord
         {
             ApplicantID = id,
             ApproverID = userId,
             ApprovalDate = DateTime.Now,
             Decision = model.Decision,
             Comments = model.Comments
-        });
+        };
+        _context.ApprovalRecords.Add(approvalRecord);
 
-        // 更新表单状态
         if (model.Decision)
         {
-            // 审批通过，推送到下一个审批人或标记为审批完成
+            // 审批通过
             var nextApprover = GetNextApprover();
             if (nextApprover != null)
             {
@@ -76,12 +81,12 @@ public class ApprovalsController : ControllerBase
             }
             else
             {
-                form.ApprovalEnding = true;
+                form.ApprovalEnding = true; // 标记审批已完成
             }
         }
         else
         {
-            // 审批拒绝，标记表单为已驳回
+            // 审批拒绝
             form.ApprovalEnding = false;
             form.State = false;
         }
@@ -91,18 +96,18 @@ public class ApprovalsController : ControllerBase
         tableSummary.ApprovalEnding = model.Decision;
 
         _context.SaveChanges();
-        return Ok();
+        return Ok("审批提交成功。");
     }
 
     private int GetCurrentUserId()
     {
-        // 获取当前登录用户的ID（此处省略具体实现）
-        return 2;
+        // 实现获取当前审批人用户 ID 的逻辑
+        return 2; // 占位符值
     }
 
     private User GetNextApprover()
     {
-        // 获取下一个审批用户（此处需要根据审批流程表实现）
+        // 实现获取下一个审批人的逻辑
         return _context.Users.FirstOrDefault(u => u.Power == "审批用户" && u.UserID != GetCurrentUserId());
     }
 }
