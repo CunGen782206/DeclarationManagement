@@ -1,6 +1,7 @@
 ﻿using DeclarationManagement;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary> 登录 </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AccountController : ControllerBase

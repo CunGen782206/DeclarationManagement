@@ -2,12 +2,14 @@
 using DeclarationManagement.Model;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary> 申请控制 </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class ApprovalsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
 
+    
     public ApprovalsController(ApplicationDbContext context)
     {
         _context = context;

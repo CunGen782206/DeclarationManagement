@@ -2,6 +2,7 @@
 using DeclarationManagement.Model;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary> 申请表单控制 </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class ApplicationFormsController : ControllerBase
@@ -13,6 +14,39 @@ public class ApplicationFormsController : ControllerBase
         _context = context;
     }
 
+    #region 添加表单
+    // POST: api/ApplicationForms
+    [HttpPost]
+    public IActionResult CreateForm([FromBody] ApplicationForm model)
+    {
+        // int userId = GetCurrentUserId();
+        // model.UserID = userId;
+        //用户ID通过包体传送给我
+        model.State = false;
+        model.ApprovalEnding = false;
+        model.ApprovalDate = DateTime.Now;
+
+        _context.ApplicationForms.Add(model);//向表中自动进行推送。
+        _context.SaveChanges();
+
+        // 推送到下一个审批人的汇总表
+        var nextApprover = GetNextApprover();
+        if (nextApprover != null)
+        {
+            _context.TableSummaries.Add(new TableSummary
+            {
+                UserID = nextApprover.UserID,
+                ApplicantID = model.FormID,
+                State = false,
+                ApprovalEnding = false
+            });
+            _context.SaveChanges();
+        }
+
+        return Ok(model);
+    }
+    #endregion
+    
     // GET: api/ApplicationForms
     [HttpGet]
     public IActionResult GetUserForms()
@@ -35,35 +69,7 @@ public class ApplicationFormsController : ControllerBase
         return Ok(forms);
     }
 
-    // POST: api/ApplicationForms
-    [HttpPost]
-    public IActionResult CreateForm([FromBody] ApplicationForm model)
-    {
-        int userId = GetCurrentUserId();
-        model.UserID = userId;
-        model.State = false;
-        model.ApprovalEnding = false;
-        model.ApprovalDate = DateTime.Now;
-
-        _context.ApplicationForms.Add(model);
-        _context.SaveChanges();
-
-        // 推送到下一个审批人的汇总表
-        var nextApprover = GetNextApprover();
-        if (nextApprover != null)
-        {
-            _context.TableSummaries.Add(new TableSummary
-            {
-                UserID = nextApprover.UserID,
-                ApplicantID = model.FormID,
-                State = false,
-                ApprovalEnding = false
-            });
-            _context.SaveChanges();
-        }
-
-        return Ok(model);
-    }
+ 
 
     // PUT: api/ApplicationForms/{id}
     [HttpPut("{id}")]
@@ -111,6 +117,9 @@ public class ApplicationFormsController : ControllerBase
         return 1; // 占位符值
     }
 
+    /// <summary> 下一个层级进行审批 </summary>
+    /// <returns>  </returns>
+    /// string role,string power
     private User GetNextApprover()
     {
         // 根据您的审批流程实现获取下一个审批人的逻辑
