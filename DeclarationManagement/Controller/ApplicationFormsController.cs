@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 /// <summary> 申请表单控制 </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]")]//api/ApplicationForms
 public class ApplicationFormsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -14,23 +14,17 @@ public class ApplicationFormsController : ControllerBase
         _context = context;
     }
 
-    #region 添加表单
-    // POST: api/ApplicationForms
-    [HttpPost]
+    #region 首次添加表单
+    // POST: api/ApplicationForms/addForm
+    [HttpPost("/addForm")] //添加表单
     public IActionResult CreateForm([FromBody] ApplicationForm model)
     {
-        // int userId = GetCurrentUserId();
-        // model.UserID = userId;
-        //用户ID通过包体传送给我
-        model.State = false;
-        model.ApprovalEnding = false;
-        model.ApprovalDate = DateTime.Now;
-
         _context.ApplicationForms.Add(model);//向表中自动进行推送。
         _context.SaveChanges();
 
         // 推送到下一个审批人的汇总表
-        var nextApprover = GetNextApprover();
+        var nextApprover = ApprovalOne(model.User.Role);
+        
         if (nextApprover != null)
         {
             _context.TableSummaries.Add(new TableSummary
@@ -43,9 +37,29 @@ public class ApplicationFormsController : ControllerBase
             _context.SaveChanges();
         }
 
-        return Ok(model);
+        return Ok();
     }
+
+    /// <summary> 预审核 </summary>
+    private User ApprovalOne(string role)
+    {
+        return _context.Users.FirstOrDefault(f => (f.Role == role) && (f.Power == "预审用户"));
+    }
+    
     #endregion
+
+    #region 修改表单
+
+    
+
+    #endregion
+
+    #region 查看表单
+
+    
+
+    #endregion
+    
     
     // GET: api/ApplicationForms
     [HttpGet]

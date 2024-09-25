@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace DeclarationManagement.Model.DTO;
 
-namespace DeclarationManagement.Model;
-
-public class ApplicationForm
+public class ApplicationFormDTO
 {
-    /// <summary> 表单ID（自动生成） </summary>
+     /// <summary> 表单ID（自动生成） </summary>
     public int FormID { get; set; }
     
     /// <summary>
@@ -117,11 +114,4 @@ public class ApplicationForm
     /// 审核完成（false为未完成，true为完成）
     /// </summary>
     public bool ApprovalEnding { get; set; } = false;
-    
-    /// <summary>
-    /// 导航属性
-    /// </summary>
-    // 导航属性
-    [ForeignKey("UserID")] 
-    public User User { get; set; }
 }

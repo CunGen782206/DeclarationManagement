@@ -22,7 +22,7 @@ public class User
     public string Power { get; set; }
 
     // 导航属性
-    /// <summary> 申请表单（一个用户有多个申请表单） </summary>
+    // /// <summary> 申请表单（一个用户有多个申请表单） </summary>
     public ICollection<ApplicationForm> ApplicationForms { get; set; }
     public ICollection<ApprovalRecord> ApprovalRecords { get; set; }
     public ICollection<TableSummary> TableSummaries { get; set; }
