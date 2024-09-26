@@ -2,14 +2,25 @@
 
 public class TableSummaryDTO
 {
-    public int SummaryID { get; set; }
-    public int UserID { get; set; }
-    public int FormID { get; set; }
-    public bool HasOperated { get; set; }
-    public bool? ApprovalResult { get; set; }
-    public bool ApprovalEnding { get; set; }
+    /// <summary>
+    /// 表汇总
+    /// </summary>
+    public int TableSummaryID { get; set; }
     
-    // 可选：包含用户和表单的信息
-    public UserDTO User { get; set; }
-    public ApplicationFormDTO ApplicationForm { get; set; }
+    /// <summary>
+    /// 用户ID
+    /// </summary>
+    public int UserID { get; set; }
+    
+    /// <summary>
+    /// 申请表单ID
+    /// </summary>
+    public int ApplicationFormID { get; set; }
+    
+    
+    /// <summary>
+    /// 审批表操作情况（0未审核，1拟同意，2拟不同意，3不同意）
+    /// </summary>
+    public int Decision { get; set; }
+    
 }

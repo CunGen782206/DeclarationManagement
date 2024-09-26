@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DeclarationManagement.Model;
 
@@ -8,33 +9,31 @@ public class TableSummary
     /// <summary>
     /// 表汇总ID
     /// </summary>
-    public int SummaryID { get; set; }
+    public int TableSummaryID { get; set; }
     
     /// <summary>
-    /// 用户ID
+    /// 目标审核人ID
     /// </summary>
     public int UserID { get; set; }
     
     /// <summary>
     /// 申请表单ID
     /// </summary>
-    public int ApplicantID { get; set; }
+    public int ApplicationFormID { get; set; }
     
     /// <summary>
-    /// 审批表汇总的操作记录（当前审批是否已操作）
+    /// 审批表操作情况（0未审核，1拟同意，2拟不同意，3不同意）
     /// </summary>
-    public bool State { get; set; }
+    public int Decision { get; set; }
     
-    /// <summary>
-    /// 当前审核是否通过 
-    /// </summary>
-    public bool ApprovalEnding { get; set; }
 
     // 导航属性
+    [JsonIgnore]
     [ForeignKey("UserID")]
     public User User { get; set; }
     
-    [ForeignKey("ApplicantID")]
+    [JsonIgnore]
+    [ForeignKey("ApplicationFormID")]
     public ApplicationForm ApplicationForm { get; set; }
 
 }

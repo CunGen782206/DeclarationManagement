@@ -2,8 +2,10 @@
 
 public class ApplicationFormDTO
 {
-     /// <summary> 表单ID（自动生成） </summary>
-    public int FormID { get; set; }
+     /// <summary>
+     /// 表单ID（自动生成）
+     /// </summary>
+    public int ApplicationFormID { get; set; }
     
     /// <summary>
     /// 项目负责人（可修改）
@@ -66,9 +68,10 @@ public class ApplicationFormDTO
     public string ProjectOutcome { get; set; }
     
     /// <summary>
-    /// 最终处理意见（可修改）
+    /// 最终处理意见（可修改，（0未审核，1拟同意，2拟不同意，3不同意））
+    /// 默认值为0
     /// </summary>
-    public bool Decision { get; set; }
+    public int Decision { get; set; }
     
     /// <summary>
     /// 审核部门（最终输入）

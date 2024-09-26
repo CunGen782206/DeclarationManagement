@@ -1,89 +1,106 @@
-﻿using DeclarationManagement;
+﻿using AutoMapper;
+using DeclarationManagement;
 using DeclarationManagement.Model;
+using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary> 申请表单控制 </summary>
 [ApiController]
-[Route("api/[controller]")]//api/ApplicationForms
+[Route("api/[controller]")] //api/ApplicationForms
 public class ApplicationFormsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public ApplicationFormsController(ApplicationDbContext context)
+    public ApplicationFormsController(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     #region 首次添加表单
     // POST: api/ApplicationForms/addForm
     [HttpPost("/addForm")] //添加表单
-    public IActionResult CreateForm([FromBody] ApplicationForm model)
+    public async Task<ActionResult> CreateForm([FromBody] ApplicationFormDTO modelDTO)
     {
-        _context.ApplicationForms.Add(model);//向表中自动进行推送。
-        _context.SaveChanges();
+        var record = _mapper.Map<ApplicationForm>(modelDTO);
+        var user = _context.Users.FirstOrDefault(user => user.UserID == modelDTO.UserID);
+        //相互绑定
+        user.ApplicationForms.Add(record);
+        record.User = user;
+        _context.ApplicationForms.Add(record); //向表中自动进行推送。
+        await _context.SaveChangesAsync();
 
-        // 推送到下一个审批人的汇总表
-        var nextApprover = ApprovalOne(model.User.Role);
+        //获得下一个审批人
+        var nextUser = ApprovalOne(record.User.Role, nameof(Power.预审用户));
         
-        if (nextApprover != null)
+        // 推送到下一个审批人的汇总表
+        if (nextUser != null)
+            PushNextTableSummary(record, nextUser);
+
+        return Ok(user);
+    }
+
+    /// <summary>
+    /// 推送给下一个用户
+    /// </summary>
+    /// <param name="applicationForm"> 推送表单 </param>
+    /// <param name="user"> 推送用户 </param>
+    private async void PushNextTableSummary(ApplicationForm applicationForm, User user)
+    {
+        if (user != null)
         {
             _context.TableSummaries.Add(new TableSummary
             {
-                UserID = nextApprover.UserID,
-                ApplicantID = model.FormID,
-                State = false,
-                ApprovalEnding = false
+                UserID = user.UserID,
+                ApplicationFormID = applicationForm.ApplicationFormID,
+                User = _context.Users.FirstOrDefault(user => user.UserID == user.UserID), //查找ID
+                Decision = 0, //未进行审核(可以放置到表格自动初始化中)
+                ApplicationForm = applicationForm
             });
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-
-        return Ok();
     }
 
     /// <summary> 预审核 </summary>
-    private User ApprovalOne(string role)
+    private User ApprovalOne(string role, string power)
     {
-        return _context.Users.FirstOrDefault(f => (f.Role == role) && (f.Power == "预审用户"));
+        return _context.Users.FirstOrDefault(f => (f.Role == role) && (f.Power == power));
     }
-    
+
     #endregion
 
     #region 修改表单
-
-    
 
     #endregion
 
     #region 查看表单
 
-    
-
     #endregion
-    
-    
+
+
     // GET: api/ApplicationForms
     [HttpGet]
     public IActionResult GetUserForms()
     {
         int userId = GetCurrentUserId();
 
-        var forms = _context.ApplicationForms
-            .Where(f => f.UserID == userId)
-            .OrderBy(f => f.FormID)
-            .Select(f => new
-            {
-                f.FormID,
-                f.ProjectName,
-                ButtonLabel = !f.State ? "修改" : "查看",
-                Status = !f.ApprovalEnding && !f.State ? "已驳回" :
-                    f.ApprovalEnding ? "审批通过" : "待审批"
-            })
-            .ToList();
+        // var forms = _context.ApplicationForms
+        //     .Where(f => f.UserID == userId)
+        //     .OrderBy(f => f.FormID)
+        //     .Select(f => new
+        //     {
+        //         f.FormID,
+        //         f.ProjectName,
+        //         ButtonLabel = !f.State ? "修改" : "查看",
+        //         Status = !f.ApprovalEnding && !f.State ? "已驳回" :
+        //             f.ApprovalEnding ? "审批通过" : "待审批"
+        //     })
+        //     .ToList();
 
-        return Ok(forms);
+        return Ok();
     }
 
- 
 
     // PUT: api/ApplicationForms/{id}
     [HttpPut("{id}")]
@@ -109,10 +126,10 @@ public class ApplicationFormsController : ControllerBase
             {
                 _context.TableSummaries.Add(new TableSummary
                 {
-                    UserID = nextApprover.UserID,
-                    ApplicantID = form.FormID,
-                    State = false,
-                    ApprovalEnding = false
+                    // UserID = nextApprover.UserID,
+                    // ApplicantID = form.FormID,
+                    // State = false,
+                    // ApprovalEnding = false
                 });
             }
 

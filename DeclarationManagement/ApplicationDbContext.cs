@@ -5,10 +5,9 @@ namespace DeclarationManagement;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } //这个名称需要和数据库中的名称一致
     public DbSet<ApplicationForm> ApplicationForms { get; set; }
     public DbSet<ApprovalRecord> ApprovalRecords { get; set; }
-    public DbSet<ApprovalFlow> ApprovalFlows { get; set; }
     public DbSet<TableSummary> TableSummaries { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

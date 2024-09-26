@@ -1,4 +1,5 @@
-﻿using DeclarationManagement;
+﻿using AutoMapper;
+using DeclarationManagement;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary> 登录 </summary>
@@ -7,9 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 public class AccountController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    public AccountController(ApplicationDbContext context)
+    private readonly IMapper _mapper;
+    
+    public AccountController(ApplicationDbContext context,IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     // POST: api/Account/login
@@ -27,7 +31,7 @@ public class AccountController : ControllerBase
         return Ok(new { user.UserID, user.Username, user.Role, user.Power });
     }
 
-    private bool VerifyPassword(string inputPassword, byte[] storedHash)
+    private bool VerifyPassword(string inputPassword, string storedHash)
     {
         // 实现密码验证逻辑，例如哈希并比较
         return true;

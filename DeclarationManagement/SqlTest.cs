@@ -53,14 +53,14 @@ class SqlTest
 CREATE TABLE [User] (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     Username VARCHAR(50) NOT NULL,
-    Password VARBINARY(256) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
     Role VARCHAR(50) NOT NULL,
     Power VARCHAR(50) NOT NULL
 );
 
 -- 创建申请表单
 CREATE TABLE ApplicationForm (
-    FormID INT IDENTITY(1,1) PRIMARY KEY,
+    ApplicationFormID INT IDENTITY(1,1) PRIMARY KEY,
     ProjectLeader VARCHAR(50) NOT NULL,
     ContactWay VARCHAR(50) NULL,
     Department VARCHAR(50) NULL,
@@ -73,7 +73,7 @@ CREATE TABLE ApplicationForm (
     ApprovalFileNumber VARCHAR(500) NOT NULL,
     ItemDescription VARCHAR(8000) NOT NULL,
     ProjectOutcome VARCHAR(8000) NOT NULL,
-    Decision BIT NOT NULL,
+    Decision Int NOT NULL,
     AuditDepartment VARCHAR(50) NOT NULL,
     Comments VARCHAR(8000) NOT NULL,
     RecognitionLevel VARCHAR(50) NOT NULL,
@@ -87,36 +87,26 @@ CREATE TABLE ApplicationForm (
 );
 
 -- 创建审批记录表
-CREATE TABLE ApprovalRecords (
-    ApprovalID INT IDENTITY(1,1) PRIMARY KEY,
-    ApplicantID INT NOT NULL,
-    ApproverID INT NOT NULL,
-    ApprovalDate SMALLDATETIME NOT NULL,
-    Decision BIT NOT NULL,
-    Comments VARCHAR(8000) NULL,
-    FOREIGN KEY (ApplicantID) REFERENCES ApplicationForm(FormID),
-    FOREIGN KEY (ApproverID) REFERENCES [User](UserID)
-);
-
--- 创建审批流程表
-CREATE TABLE ApprovalFlows (
-    RequestID INT IDENTITY(1,1) PRIMARY KEY,
-    StepNumber INT NOT NULL,
+CREATE TABLE ApprovalRecord (
+    ApprovalRecordID INT IDENTITY(1,1) PRIMARY KEY,
+    ApplicationFormID INT NOT NULL,
     UserID INT NOT NULL,
+    ApprovalDate SMALLDATETIME NOT NULL,
+    Decision INT NOT NULL,
+    Comments VARCHAR(8000) NULL,
+    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForm(ApplicationFormID),
     FOREIGN KEY (UserID) REFERENCES [User](UserID)
 );
 
 -- 创建审批表汇总
 CREATE TABLE TableSummary (
-    SummaryID INT IDENTITY(1,1) PRIMARY KEY,
+    TableSummaryID INT IDENTITY(1,1) PRIMARY KEY,
     UserID INT NOT NULL,
-    ApplicantID INT NOT NULL,
-    State BIT NOT NULL,
-    ApprovalEnding BIT NOT NULL,
+    ApplicationFormID INT NOT NULL,
+    Decision INT NOT NULL,
     FOREIGN KEY (UserID) REFERENCES [User](UserID),
-    FOREIGN KEY (ApplicantID) REFERENCES ApplicationForm(FormID)
+    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForm(ApplicationFormID)
 );
-
 ";
 
                 using (SqlCommand command = new SqlCommand(createTableQuery, demoDbConnection))
