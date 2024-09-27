@@ -24,7 +24,7 @@ public class ApplicationFormsController : ControllerBase
     public async Task<ActionResult> CreateForm([FromBody] ApplicationFormDTO modelDTO)
     {
         var record = _mapper.Map<ApplicationForm>(modelDTO);
-        var user = _context.Users.FirstOrDefault(user => user.UserID == modelDTO.UserID);
+        var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID);
         //相互绑定
         user.ApplicationForms.Add(record);
         record.User = user;
@@ -54,7 +54,7 @@ public class ApplicationFormsController : ControllerBase
             {
                 UserID = user.UserID,
                 ApplicationFormID = applicationForm.ApplicationFormID,
-                User = _context.Users.FirstOrDefault(user => user.UserID == user.UserID), //查找ID
+                User = _context.Users.SingleOrDefault(user => user.UserID == user.UserID), //查找ID
                 Decision = 0, //未进行审核(可以放置到表格自动初始化中)
                 ApplicationForm = applicationForm
             });

@@ -23,9 +23,9 @@ public class User
 
     // 导航属性
     // /// <summary> 申请表单（一个用户有多个申请表单） </summary>
-    public ICollection<ApplicationForm> ApplicationForms { get; set; } = new List<ApplicationForm>();
-    public ICollection<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
-    public ICollection<TableSummary> TableSummaries { get; set; } = new List<TableSummary>();
+    [JsonIgnore] public ICollection<ApplicationForm> ApplicationForms { get; set; } = new List<ApplicationForm>();
+    [JsonIgnore] public ICollection<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
+    [JsonIgnore] public ICollection<TableSummary> TableSummaries { get; set; } = new List<TableSummary>();
 }
 
 /// <summary>
@@ -37,4 +37,3 @@ public enum Power
     预审用户,
     初审用户
 }
-

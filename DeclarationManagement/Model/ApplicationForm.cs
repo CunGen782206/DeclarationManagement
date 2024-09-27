@@ -146,6 +146,6 @@ public enum ProjectCategory
     课程建设类,
     师资建设类,
     教学竞赛类,
-    教材类,
+    教材建设类,
     教学成果类
 }

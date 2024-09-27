@@ -34,7 +34,9 @@ public class ApprovalRecord
     public string Comments { get; set; }
 
     // 导航属性
-    [JsonIgnore] [ForeignKey("ApplicationFormID")] public ApplicationForm ApplicationForm { get; set; }
+    [JsonIgnore]
+    [ForeignKey("ApplicationFormID")]
+    public ApplicationForm ApplicationForm { get; set; }
 
     [JsonIgnore] [ForeignKey("UserID")] public User user { get; set; }
 }
