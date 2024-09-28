@@ -24,7 +24,7 @@ public class ApplicationFormsController : ControllerBase
     public async Task<ActionResult> CreateForm([FromBody] ApplicationFormDTO modelDTO)
     {
         var record = _mapper.Map<ApplicationForm>(modelDTO);
-        var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID);
+        var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID);//当前表单用户
         //相互绑定
         user.ApplicationForms.Add(record);
         record.User = user;
@@ -36,25 +36,25 @@ public class ApplicationFormsController : ControllerBase
         
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
-            PushNextTableSummary(record, nextUser);
+            await PushNextTableSummary(record, nextUser);
 
-        return NoContent();//请求成功但不返回内容
+        return NoContent();//请求成功但不返回内容 //TODO:返回左右的表单结构
     }
 
     /// <summary>
     /// 推送给下一个用户
     /// </summary>
     /// <param name="applicationForm"> 推送表单 </param>
-    /// <param name="user"> 推送用户 </param>
-    private async void PushNextTableSummary(ApplicationForm applicationForm, User user)
+    /// <param name="nextUser"> 推送用户 </param>
+    private async Task PushNextTableSummary(ApplicationForm applicationForm, User nextUser)
     {
-        if (user != null)
+        if (nextUser != null)
         {
             _context.TableSummaries.Add(new TableSummary
             {
-                UserID = user.UserID,
+                UserID = nextUser.UserID,
                 ApplicationFormID = applicationForm.ApplicationFormID,
-                User = _context.Users.SingleOrDefault(user => user.UserID == user.UserID), //查找ID
+                User = _context.Users.SingleOrDefault(user => user.UserID == nextUser.UserID), //查找ID(绑定关系)
                 Decision = 0, //未进行审核(可以放置到表格自动初始化中)
                 ApplicationForm = applicationForm
             });
@@ -70,7 +70,7 @@ public class ApplicationFormsController : ControllerBase
 
     #endregion
 
-    #region 修改表单
+    #region 修改表单 //TODO:要进行修改的部分
     // POST: api/ApplicationForms/alterForm
     [HttpPut("/alterForm")] //修改表单
     public async Task<ActionResult> AlterForm([FromBody] ApplicationFormDTO modelDTO)
@@ -90,7 +90,7 @@ public class ApplicationFormsController : ControllerBase
         
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
-            PushNextTableSummary(record, nextUser);
+            await PushNextTableSummary(record, nextUser);
         
         return NoContent();//请求成功但不返回内容
     }

@@ -106,22 +106,13 @@ public class ApplicationForm
     /// 用户ID（关联到User表中）
     /// </summary>
     public int UserID { get; set; }
-
-    /// <summary>
-    /// 当前修改状态（false表查看，true表示修改）
-    /// </summary>
-    public bool State { get; set; } = false;
+    
 
     /// <summary>
     /// 申请时间（一次记录）
     /// </summary>
     public DateTime ApprovalDate { get; set; }
 
-    /// <summary>
-    /// 审核完成（false为未完成，true为完成）
-    /// 是否可删除
-    /// </summary>
-    public bool ApprovalEnding { get; set; } = false;
 
     /// <summary>
     /// 导航属性

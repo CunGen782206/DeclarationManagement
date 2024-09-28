@@ -38,5 +38,5 @@ public class ApprovalRecord
     [ForeignKey("ApplicationFormID")]
     public ApplicationForm ApplicationForm { get; set; }
 
-    [JsonIgnore] [ForeignKey("UserID")] public User user { get; set; }
+    [JsonIgnore] [ForeignKey("UserID")] public User User { get; set; }
 }

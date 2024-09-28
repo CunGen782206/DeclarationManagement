@@ -39,7 +39,7 @@ public class ApprovalCombineDTO
     /// <summary>
     /// 认定金额
     /// </summary>
-    public string DeemedAmount { get; set; }
+    public int DeemedAmount { get; set; }
     
     /// <summary>
     /// 备注（选填）
