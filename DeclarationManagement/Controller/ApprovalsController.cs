@@ -3,7 +3,6 @@ using DeclarationManagement;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 /// <summary> 申请控制 </summary>
 [ApiController]
@@ -25,7 +24,7 @@ public class ApprovalsController : ControllerBase
     /// <param name="id"> 审核人id（根据审核人判断是预审还是终审状态） </param>
     /// <param name="modelDTO"> 审核组合表单 </param>
     /// <returns> 返回当前所有的TableSummaries表单 </returns> //TODO:是否需要改成单个表单返回，他直接添加刷新
-    [HttpPost("/approvalForm")] //添加表单
+    [HttpPost("/approvalForm")] //审核表单
     public async Task<ActionResult> ApprovalForm([FromBody] ApprovalCombineDTO approvalCombineDTO)
     {
         var approvalUser = _context.Users.SingleOrDefault(u =>
@@ -40,6 +39,7 @@ public class ApprovalsController : ControllerBase
                 break;
         }
 
+        //返回所有审核表单
         return Ok();
     }
 
@@ -60,6 +60,7 @@ public class ApprovalsController : ControllerBase
 
         //修改当前审批表（相当于修改状态）
         await AmendTableSummary(approvalCombineDTO);
+        
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineDTO, applicationForm, approvalUser);
 
@@ -78,7 +79,8 @@ public class ApprovalsController : ControllerBase
         else
         {
             //查找下一级User
-            applicationForm.Decision = 0; //审批不通过
+            applicationForm.Decision = 0; 
+            await _context.SaveChangesAsync();
             var nextUser = ApprovalTwo(applicationForm.ProjectCategory); //查找下一个层级
             await PushNextTableSummary(applicationForm, nextUser);
         }
@@ -182,6 +184,12 @@ public class ApprovalsController : ControllerBase
 
     #endregion
 
+    #region 查找表单
+
+    
+
+    #endregion
+    
     /// <summary>
     /// 查找下一个需要推送的表单
     /// </summary>
@@ -208,105 +216,16 @@ public class ApprovalsController : ControllerBase
                 return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.初审用户)));
         }
     }
+    
+    
 
     #region Other
-
-    // GET: api/Approvals
-    [HttpGet]
-    public IActionResult GetPendingApprovals()
-    {
-        // int userId = GetCurrentUserId();
-        //
-        // var approvals = _context.TableSummaries
-        //     .Where(ts => ts.UserID == userId)
-        //     .OrderBy(ts => ts.SummaryID)
-        //     .Select(ts => new
-        //     {
-        //         ts.ApplicantID,
-        //         ButtonLabel = !ts.State ? "审核" : "查看",
-        //         Status = !ts.ApprovalEnding && !ts.State ? "已驳回" :
-        //             ts.ApprovalEnding ? "已审核" : "待审核"
-        //     })
-        //     .ToList();
-
-        return Ok();
-    }
 
     // POST: api/Approvals/{id}/review
     [HttpPost("{id}/review")]
     public IActionResult ReviewForm(int id)
     {
-        // int userId = GetCurrentUserId();
-        //
-        // var tableSummary = _context.TableSummaries
-        //     .FirstOrDefault(ts => ts.ApplicantID == id && ts.UserID == userId);
-        //
-        // if (tableSummary == null)
-        // {
-        //     return NotFound("未找到需要审批的表单。");
-        // }
-        //
-        // var form = _context.ApplicationForms.Find(id);
-        // if (form == null)
-        // {
-        //     return NotFound("申请表单不存在。");
-        // }
-        //
-        // // 添加审批记录
-        // var approvalRecord = new ApprovalRecord
-        // {
-        //     ApplicantID = id,
-        //     ApproverID = userId,
-        //     ApprovalDate = DateTime.Now,
-        //     Decision = model.Decision,
-        //     Comments = model.Comments
-        // };
-        // _context.ApprovalRecords.Add(approvalRecord);
-        //
-        // if (model.Decision)
-        // {
-        //     // 审批通过
-        //     var nextApprover = GetNextApprover();
-        //     if (nextApprover != null)
-        //     {
-        //         _context.TableSummaries.Add(new TableSummary
-        //         {
-        //             UserID = nextApprover.UserID,
-        //             ApplicantID = id,
-        //             State = false,
-        //             ApprovalEnding = false
-        //         });
-        //     }
-        //     else
-        //     {
-        //         form.ApprovalEnding = true; // 标记审批已完成
-        //     }
-        // }
-        // else
-        // {
-        //     // 审批拒绝
-        //     form.ApprovalEnding = false;
-        //     form.State = false;
-        // }
-        //
-        // // 更新审批汇总表
-        // tableSummary.State = true;
-        // tableSummary.ApprovalEnding = model.Decision;
-        //
-        // _context.SaveChanges();
         return Ok("审批提交成功。");
-    }
-
-    private int GetCurrentUserId()
-    {
-        // 实现获取当前审批人用户 ID 的逻辑
-        return 2; // 占位符值
-    }
-
-    private User GetNextApprover()
-    {
-        // 实现获取下一个审批人的逻辑
-        return _context.Users.FirstOrDefault(u => u.Power == "审批用户" && u.UserID != GetCurrentUserId());
     }
 
     #endregion
