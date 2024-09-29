@@ -96,7 +96,7 @@ public class ApplicationFormsController : ControllerBase
     }
     #endregion
 
-    #region 查看表单
+    #region 查看单个表单
     
     // GET: api/ApplicationForms/getForm
     [HttpGet("/getForm")] //传入表格ID（获得表单）
@@ -105,6 +105,18 @@ public class ApplicationFormsController : ControllerBase
         var applicationForm = _context.ApplicationForms.FirstOrDefault(form =>  form.ApplicationFormID == ApplicationFormID);
  
         return Ok(applicationForm);
+    }
+
+    #endregion
+
+    #region 查看当前用户所有的表单状态
+
+    // GET: api/ApplicationForms/getForm
+    [HttpGet("/getStates")] //传入表格ID（获得表单）
+    public async Task<ActionResult> GetStates(int ApplicationFormID)
+    {
+        
+        return Ok();
     }
 
     #endregion
