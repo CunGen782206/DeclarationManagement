@@ -126,6 +126,7 @@ public class ApplicationForm
     /// 当前表单经历的审核历程
     /// </summary>
     public ICollection<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
+    
 }
 
 /// <summary>

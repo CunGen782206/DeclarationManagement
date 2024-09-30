@@ -113,6 +113,7 @@ public class ApprovalsController : ControllerBase
             UserID = approvalUser.UserID,
             Decision = approvalCombineDTO.Decision,
             Comments = approvalCombineDTO.Comments,
+            ApprovalDate = DateTime.Now,
             ApplicationForm = applicationForm,
             User = approvalUser
         };
@@ -181,14 +182,10 @@ public class ApprovalsController : ControllerBase
         applicationForm.Remarks = approvalCombineDTO.Remarks;
         await _context.SaveChangesAsync();
     }
-
-    #endregion
-
-    #region 查找表单
-
     
-
     #endregion
+
+
     
     /// <summary>
     /// 查找下一个需要推送的表单
@@ -217,16 +214,4 @@ public class ApprovalsController : ControllerBase
         }
     }
     
-    
-
-    #region Other
-
-    // POST: api/Approvals/{id}/review
-    [HttpPost("{id}/review")]
-    public IActionResult ReviewForm(int id)
-    {
-        return Ok("审批提交成功。");
-    }
-
-    #endregion
 }

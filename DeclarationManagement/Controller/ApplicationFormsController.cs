@@ -2,6 +2,7 @@
 using DeclarationManagement;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
+using DeclarationManagement.View;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary> 申请表单控制 </summary>
@@ -19,12 +20,13 @@ public class ApplicationFormsController : ControllerBase
     }
 
     #region 首次添加表单
+
     // POST: api/ApplicationForms/addForm
     [HttpPost("/addForm")] //添加表单
     public async Task<ActionResult> CreateForm([FromBody] ApplicationFormDTO modelDTO)
     {
-        var record = _mapper.Map<ApplicationForm>(modelDTO);
-        var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID);//当前表单用户
+        var record = _mapper.Map<ApplicationForm>(modelDTO);//将DTO数据转化为非DTO数据库数据
+        var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID); //当前表单用户
         //相互绑定
         user.ApplicationForms.Add(record);
         record.User = user;
@@ -33,12 +35,12 @@ public class ApplicationFormsController : ControllerBase
 
         //获得下一个审批人
         var nextUser = ApprovalOne(record.User.Role, nameof(Power.预审用户));
-        
+
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
             await PushNextTableSummary(record, nextUser);
 
-        return NoContent();//请求成功但不返回内容 //TODO:返回左右的表单结构
+        return NoContent(); //请求成功但不返回内容 //TODO:返回左右的表单结构
     }
 
     /// <summary>
@@ -71,52 +73,42 @@ public class ApplicationFormsController : ControllerBase
     #endregion
 
     #region 修改表单 //TODO:要进行修改的部分
+
     // POST: api/ApplicationForms/alterForm
     [HttpPut("/alterForm")] //修改表单
     public async Task<ActionResult> AlterForm([FromBody] ApplicationFormDTO modelDTO)
     {
-        
         var record = _mapper.Map<ApplicationForm>(modelDTO);
-        var applicationForm = _context.ApplicationForms.FirstOrDefault(form =>  form.ApplicationFormID == modelDTO.ApplicationFormID);
-        
-        _mapper.Map(modelDTO, applicationForm);//将表单进行数据替换
-        
+        var applicationForm =
+            _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == modelDTO.ApplicationFormID);
+
+        _mapper.Map(modelDTO, applicationForm); //将表单进行数据替换
+
         //TODO:清空其他审核过程中的数据
-        
+
         await _context.SaveChangesAsync();
-        
+
         //获得下一个审批人
         var nextUser = ApprovalOne(record.User.Role, nameof(Power.预审用户));
-        
+
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
             await PushNextTableSummary(record, nextUser);
-        
-        return NoContent();//请求成功但不返回内容
+
+        return NoContent(); //请求成功但不返回内容
     }
+
     #endregion
 
     #region 查看单个表单
-    
+
     // GET: api/ApplicationForms/getForm
-    [HttpGet("/getForm")] //传入表格ID（获得表单）
-    public async Task<ActionResult> GetForms(int ApplicationFormID)
+    [HttpGet("/getForm/{ID}")] //传入表格ID（获得表单）
+    public async Task<ActionResult> GetForms(int ID)
     {
-        var applicationForm = _context.ApplicationForms.FirstOrDefault(form =>  form.ApplicationFormID == ApplicationFormID);
- 
+        var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == ID);
+
         return Ok(applicationForm);
-    }
-
-    #endregion
-
-    #region 查看当前用户所有的表单状态
-
-    // GET: api/ApplicationForms/getForm
-    [HttpGet("/getStates")] //传入表格ID（获得表单）
-    public async Task<ActionResult> GetStates(int ApplicationFormID)
-    {
-        
-        return Ok();
     }
 
     #endregion

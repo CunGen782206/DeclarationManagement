@@ -9,8 +9,8 @@ public class AccountController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
-    
-    public AccountController(ApplicationDbContext context,IMapper mapper)
+
+    public AccountController(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

@@ -30,7 +30,9 @@ public class ApprovalRecord
     /// </summary>
     public int Decision { get; set; }
 
-    /// <summary> 审批意见（拒绝或者同意的意见） </summary>
+    /// <summary>
+    /// 审批意见（拒绝或者同意的意见）
+    /// </summary>
     public string Comments { get; set; }
 
     // 导航属性
