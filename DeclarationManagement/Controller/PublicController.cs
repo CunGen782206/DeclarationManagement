@@ -21,10 +21,36 @@ public class PublicController : ControllerBase
         _mapper = mapper;
     }
 
+    #region 登录部分
+
+    // POST: api/Account/login
+    [HttpPost("login")]
+    public async Task<ActionResult> Login([FromBody] LoginViewModel model)
+    {
+        var user = _context.Users.SingleOrDefault(u => u.Username == model.Username);
+        if (user == null || !model.Password.Equals(user.Password))
+        {
+            return Unauthorized("用户名或密码错误");
+        }
+
+        // 如果需要，在此生成身份验证令牌（例如 JWT）
+
+        return Ok( GetStatesPrivate(user.UserID));//返回所需要的值
+    }
+
+    #endregion
+
     #region 登陆后查看当前用户的所有表单
+    
+    //TODO:登录做在这里
 
     [HttpGet("/getUserStates/{UserID}")] //查找当前用户的表单
     public async Task<ActionResult> GetStates(int UserID)
+    {
+        return Ok(GetStatesPrivate(UserID));
+    }
+
+    private List<CommonDatas> GetStatesPrivate(int UserID)
     {
         var user = _context.Users.SingleOrDefault(u => u.UserID == UserID);
         List<CommonDatas> listDate;
@@ -37,7 +63,7 @@ public class PublicController : ControllerBase
             listDate = GetApprovalDatas(UserID);
         }
 
-        return Ok(listDate);
+        return listDate;
     }
 
     /// <summary> 普通用户的返回数据 </summary>
@@ -83,4 +109,11 @@ public class PublicController : ControllerBase
     }
 
     #endregion
+}
+
+
+public class LoginViewModel
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
 }

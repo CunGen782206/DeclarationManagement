@@ -98,7 +98,7 @@ CREATE TABLE ApprovalRecords (
 );
 
 -- 创建审批表汇总
-CREATE TABLE TableSummarys (
+CREATE TABLE TableSummaries (
     TableSummaryID INT IDENTITY(1,1) PRIMARY KEY,
     UserID INT NOT NULL,
     ApplicationFormID INT NOT NULL,

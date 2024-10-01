@@ -60,10 +60,9 @@ public class ApprovalsController : ControllerBase
 
         //修改当前审批表（相当于修改状态）
         await AmendTableSummary(approvalCombineDTO);
-        
+
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineDTO, applicationForm, approvalUser);
-
         if (approvalCombineDTO.Decision == 2)
         {
             applicationForm.Decision = 2; //打回给原客户
@@ -79,7 +78,7 @@ public class ApprovalsController : ControllerBase
         else
         {
             //查找下一级User
-            applicationForm.Decision = 0; 
+            applicationForm.Decision = 0;
             await _context.SaveChangesAsync();
             var nextUser = ApprovalTwo(applicationForm.ProjectCategory); //查找下一个层级
             await PushNextTableSummary(applicationForm, nextUser);
@@ -104,7 +103,8 @@ public class ApprovalsController : ControllerBase
     /// 创建新的审批记录表
     /// </summary>
     /// <param name="approvalCombineDTO"></param>
-    private async Task CreateApprovalRecords(ApprovalCombineDTO approvalCombineDTO, ApplicationForm applicationForm,
+    private async Task CreateApprovalRecords(ApprovalCombineDTO approvalCombineDTO,
+        ApplicationForm applicationForm,
         User approvalUser)
     {
         var newApprovalRecord = new ApprovalRecord()
@@ -118,6 +118,8 @@ public class ApprovalsController : ControllerBase
             User = approvalUser
         };
         _context.ApprovalRecords.Add(newApprovalRecord);
+        await _context.SaveChangesAsync();
+        applicationForm.ApprovalRecords.Add(newApprovalRecord);
         await _context.SaveChangesAsync();
     }
 
@@ -182,11 +184,10 @@ public class ApprovalsController : ControllerBase
         applicationForm.Remarks = approvalCombineDTO.Remarks;
         await _context.SaveChangesAsync();
     }
-    
+
     #endregion
 
 
-    
     /// <summary>
     /// 查找下一个需要推送的表单
     /// </summary>
@@ -213,5 +214,4 @@ public class ApprovalsController : ControllerBase
                 return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.初审用户)));
         }
     }
-    
 }

@@ -25,11 +25,12 @@ public class ApplicationFormsController : ControllerBase
     [HttpPost("/addForm")] //添加表单
     public async Task<ActionResult> CreateForm([FromBody] ApplicationFormDTO modelDTO)
     {
-        var record = _mapper.Map<ApplicationForm>(modelDTO);//将DTO数据转化为非DTO数据库数据
+        var record = _mapper.Map<ApplicationForm>(modelDTO); //将DTO数据转化为非DTO数据库数据
         var user = _context.Users.SingleOrDefault(user => user.UserID == modelDTO.UserID); //当前表单用户
         //相互绑定
         user.ApplicationForms.Add(record);
         record.User = user;
+        record.ApprovalDate = DateTime.Now;
         _context.ApplicationForms.Add(record); //向表中自动进行推送。
         await _context.SaveChangesAsync();
 
@@ -102,11 +103,19 @@ public class ApplicationFormsController : ControllerBase
 
     #region 查看单个表单
 
+    //如果是普通用户，则Form传入的是表单ID，如果是审核用户，传入的则是TableId
     // GET: api/ApplicationForms/getForm
-    [HttpGet("/getForm/{ID}")] //传入表格ID（获得表单）
-    public async Task<ActionResult> GetForms(int ID)
+    [HttpGet("/getForm/{UserId}/{FormId}")] //传入表格ID（获得表单）
+    public async Task<ActionResult> GetForms(int UserId,int FormId)
     {
-        var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == ID);
+        var user = _context.Users.SingleOrDefault(user => user.UserID == UserId);
+        if (user.Power != nameof(Power.普通用户))
+        {
+           var table = _context.TableSummaries.SingleOrDefault(summary => summary.TableSummaryID == FormId);
+           FormId = table.ApplicationFormID;
+        }
+        
+        var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);
 
         return Ok(applicationForm);
     }

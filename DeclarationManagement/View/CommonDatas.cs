@@ -2,7 +2,7 @@
 
 namespace DeclarationManagement.View;
 
-/// <summary> 返回所需要的展示数据 </summary>
+/// <summary> 展示页展示数据，返回所需要的展示数据 </summary>
 public class CommonDatas
 {
     /// <summary>
@@ -45,6 +45,10 @@ public class CommonDatas
     /// </summary>
     public int Decision { get; set; }
 
+    /// <summary>
+    /// 普通用户的展示页数据
+    /// </summary>
+    /// <param name="applicationForm"></param>
     public CommonDatas(ApplicationForm applicationForm)
     {
         FormID = applicationForm.ApplicationFormID;

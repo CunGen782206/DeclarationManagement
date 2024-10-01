@@ -167,3 +167,4 @@ E:\CSharp\DeclarationManagement\DeclarationManagement\obj\Debug\net8.0\Declarati
 E:\CSharp\DeclarationManagement\DeclarationManagement\obj\Debug\net8.0\DeclarationManagement.genruntimeconfig.cache
 E:\CSharp\DeclarationManagement\DeclarationManagement\obj\Debug\net8.0\ref\DeclarationManagement.dll
 E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\AutoMapper.dll
+E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\AutoMapper.dll

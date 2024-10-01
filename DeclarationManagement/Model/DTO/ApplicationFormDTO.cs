@@ -102,12 +102,13 @@ public class ApplicationFormDTO
     /// 用户ID（关联到User表中）
     /// </summary>
     public int UserID { get; set; }
-    
+
 
     /// <summary>
     /// 申请时间（一次记录）
     /// </summary>
     public DateTime ApprovalDate { get; set; }
-    
+
     //审批记录表中不放这个部分
+    public List<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
 }
