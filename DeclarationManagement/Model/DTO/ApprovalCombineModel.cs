@@ -1,7 +1,7 @@
 ﻿namespace DeclarationManagement.Model.DTO;
 
 /// <summary> 审核组合代码 </summary>
-public class ApprovalCombineDTO
+public class ApprovalCombineModel
 {
     /// <summary>
     /// 所审核的表单ID

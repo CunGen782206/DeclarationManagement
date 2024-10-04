@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DeclarationManagement.Model;
-using DeclarationManagement.View;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeclarationManagement.Controller;
@@ -50,10 +49,10 @@ public class PublicController : ControllerBase
         return Ok(GetStatesPrivate(UserID));
     }
 
-    private List<CommonDatas> GetStatesPrivate(int UserID)
+    private List<CommonDatasModel> GetStatesPrivate(int UserID)
     {
         var user = _context.Users.SingleOrDefault(u => u.UserID == UserID);
-        List<CommonDatas> listDate;
+        List<CommonDatasModel> listDate;
         if (user.Power == nameof(Power.普通用户))
         {
             listDate = GetCommonDatas(UserID);
@@ -68,12 +67,12 @@ public class PublicController : ControllerBase
 
     /// <summary> 普通用户的返回数据 </summary>
     /// <returns></returns>
-    private List<CommonDatas> GetCommonDatas(int userID)
+    private List<CommonDatasModel> GetCommonDatas(int userID)
     {
         var applicationForms = _context.ApplicationForms.Where(form => form.UserID == userID);
         if (applicationForms.Any()) //判断是有元素
         {
-            return applicationForms.Select(form => new CommonDatas(form)).ToList();
+            return applicationForms.Select(form => new CommonDatasModel(form)).ToList();
         }
         else
         {
@@ -84,7 +83,7 @@ public class PublicController : ControllerBase
 
     /// <summary> 审核用户的返回数据 </summary>
     /// <returns></returns>
-    private List<CommonDatas> GetApprovalDatas(int userID)
+    private List<CommonDatasModel> GetApprovalDatas(int userID)
     {
         var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID);
         if (tableSummaries.Any())
@@ -102,10 +101,10 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="tableSummary"></param>
     /// <returns></returns>
-    private static CommonDatas CreateCommonData(TableSummary tableSummary,ApplicationDbContext _context)
+    private static CommonDatasModel CreateCommonData(TableSummary tableSummary,ApplicationDbContext _context)
     {
         var applicationForm = _context.ApplicationForms.SingleOrDefault(form => form.ApplicationFormID == tableSummary.ApplicationFormID);
-        return new CommonDatas(applicationForm, tableSummary);
+        return new CommonDatasModel(applicationForm, tableSummary);
     }
 
     #endregion

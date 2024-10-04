@@ -28,11 +28,11 @@ public class TableSummary
     
 
     // 导航属性
-    [JsonIgnore]
+    // [JsonIgnore]
     [ForeignKey("UserID")]
     public User User { get; set; }
     
-    [JsonIgnore]
+    // [JsonIgnore]
     [ForeignKey("ApplicationFormID")]
     public ApplicationForm ApplicationForm { get; set; }
 

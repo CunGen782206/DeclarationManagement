@@ -110,5 +110,5 @@ public class ApplicationFormDTO
     public DateTime ApprovalDate { get; set; }
 
     //审批记录表中不放这个部分
-    public List<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
+    public List<ApprovalRecordDTO> ApprovalRecords { get; set; } = new List<ApprovalRecordDTO>(); //这个也需要对DTO做映射处理
 }

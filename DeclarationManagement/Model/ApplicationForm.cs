@@ -106,7 +106,7 @@ public class ApplicationForm
     /// 用户ID（关联到User表中）
     /// </summary>
     public int UserID { get; set; }
-    
+
 
     /// <summary>
     /// 申请时间（一次记录）
@@ -118,15 +118,14 @@ public class ApplicationForm
     /// 导航属性
     /// </summary>
     // 导航属性
-    [JsonIgnore]//防止Json一直在里面循环
+    // [JsonIgnore]//防止Json一直在里面循环
     [ForeignKey("UserID")]
     public User User { get; set; }
 
     /// <summary>
     /// 当前表单经历的审核历程
     /// </summary>
-    public ICollection<ApprovalRecord> ApprovalRecords { get; set; } =new List<ApprovalRecord>();
-    
+    public ICollection<ApprovalRecord> ApprovalRecords { get; set; } = new List<ApprovalRecord>();
 }
 
 /// <summary>

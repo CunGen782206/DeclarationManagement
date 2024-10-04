@@ -3,13 +3,15 @@ using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
 
 namespace DeclarationManagement;
+
 public class AutoMapperProfile : Profile
 {
     //添加项目间的映射关系
     public AutoMapperProfile()
     {
         // ApplicationForm 和 ApplicationFormDTO 之间的映射
-        CreateMap<ApplicationForm, ApplicationFormDTO>();
+        CreateMap<ApplicationForm, ApplicationFormDTO>().ForMember(dest => dest.ApprovalRecords,
+            opt => opt.MapFrom(src => src.ApprovalRecords));//定义ApprovalRecords的映射关系
         CreateMap<ApplicationFormDTO, ApplicationForm>();
 
         // User 和 UserDTO 之间的映射

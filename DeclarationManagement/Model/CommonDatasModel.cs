@@ -1,9 +1,9 @@
 ﻿using DeclarationManagement.Model;
 
-namespace DeclarationManagement.View;
+namespace DeclarationManagement.Model;
 
 /// <summary> 展示页展示数据，返回所需要的展示数据 </summary>
-public class CommonDatas
+public class CommonDatasModel
 {
     /// <summary>
     /// 表单ID 普通用户时ApplicationForm，，初审和终审则是TableSummary
@@ -49,7 +49,7 @@ public class CommonDatas
     /// 普通用户的展示页数据
     /// </summary>
     /// <param name="applicationForm"></param>
-    public CommonDatas(ApplicationForm applicationForm)
+    public CommonDatasModel(ApplicationForm applicationForm)
     {
         FormID = applicationForm.ApplicationFormID;
         ProjectLeader = applicationForm.ProjectLeader;
@@ -66,7 +66,7 @@ public class CommonDatas
     /// </summary>
     /// <param name="applicationForm"></param>
     /// <param name="tableSummary"></param>
-    public CommonDatas(ApplicationForm applicationForm,TableSummary tableSummary)
+    public CommonDatasModel(ApplicationForm applicationForm,TableSummary tableSummary)
     {
         FormID = tableSummary.TableSummaryID;
         ProjectLeader = applicationForm.ProjectLeader;

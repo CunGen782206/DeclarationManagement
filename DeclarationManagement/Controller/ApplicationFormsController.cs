@@ -2,8 +2,8 @@
 using DeclarationManagement;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
-using DeclarationManagement.View;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 /// <summary> 申请表单控制 </summary>
 [ApiController]
@@ -115,9 +115,13 @@ public class ApplicationFormsController : ControllerBase
            FormId = table.ApplicationFormID;
         }
         
-        var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);
+        var applicationForm = _context.ApplicationForms.Include(applicationForm => applicationForm.ApprovalRecords).FirstOrDefault(form => form.ApplicationFormID == FormId);//需要通过Include加载关系
+        // var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);//如果直接这样写就会出现错误。
 
-        return Ok(applicationForm);
+        var applicationFormDto = _mapper.Map<ApplicationFormDTO>(applicationForm);
+        Console.WriteLine("nnnnnnnnnnnnnnnDTO："+applicationFormDto.ApprovalRecords.Count);
+        Console.WriteLine("nnnnnnnnnnnnnnn："+applicationForm.ApprovalRecords.Count);  //todo:这个两个值还是0；有问题的
+        return Ok(applicationFormDto);
     }
 
     #endregion
