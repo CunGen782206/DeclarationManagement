@@ -50,7 +50,7 @@ public class ApprovalsController : ControllerBase
     /// <summary>
     /// 预审用户审核
     /// </summary>
-    /// <param name="approvalCombineModel"></param>
+    /// <param name="approvalCombineModel">  </param>
     /// <param name="approvalUser"> 审核的用户 </param>
     private async Task Audition(ApprovalCombineModel approvalCombineModel, User approvalUser)
     {
@@ -121,7 +121,6 @@ public class ApprovalsController : ControllerBase
         await _context.SaveChangesAsync();
         applicationForm.ApprovalRecords.Add(newApprovalRecord);
         await _context.SaveChangesAsync();
-        Console.WriteLine("nnnnnnnnnnnnnnnnnnnnnn:"+ applicationForm.ApprovalRecords.Count);
     }
 
     /// <summary>
@@ -175,7 +174,8 @@ public class ApprovalsController : ControllerBase
     /// <summary>
     /// 修改申请表单
     /// </summary>
-    private async Task AmendApplicationFormDTO(ApprovalCombineModel approvalCombineModel, ApplicationForm applicationForm,
+    private async Task AmendApplicationFormDTO(ApprovalCombineModel approvalCombineModel,
+        ApplicationForm applicationForm,
         User approvalUser)
     {
         applicationForm.AuditDepartment = approvalUser.Role;

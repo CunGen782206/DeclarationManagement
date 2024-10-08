@@ -34,13 +34,14 @@ public class PublicController : ControllerBase
 
         // 如果需要，在此生成身份验证令牌（例如 JWT）
 
-        return Ok( GetStatesPrivate(user.UserID));//返回所需要的值
+        return Ok(new
+            { userID = user.UserID, userPower = user.Power, commonDatasModel = GetStatesPrivate(user.UserID) }); //返回所需要的值
     }
 
     #endregion
 
     #region 登陆后查看当前用户的所有表单
-    
+
     //TODO:登录做在这里
 
     [HttpGet("/getUserStates/{UserID}")] //查找当前用户的表单
@@ -101,15 +102,15 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="tableSummary"></param>
     /// <returns></returns>
-    private static CommonDatasModel CreateCommonData(TableSummary tableSummary,ApplicationDbContext _context)
+    private static CommonDatasModel CreateCommonData(TableSummary tableSummary, ApplicationDbContext _context)
     {
-        var applicationForm = _context.ApplicationForms.SingleOrDefault(form => form.ApplicationFormID == tableSummary.ApplicationFormID);
+        var applicationForm =
+            _context.ApplicationForms.SingleOrDefault(form => form.ApplicationFormID == tableSummary.ApplicationFormID);
         return new CommonDatasModel(applicationForm, tableSummary);
     }
 
     #endregion
 }
-
 
 public class LoginViewModel
 {

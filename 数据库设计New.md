@@ -171,9 +171,9 @@ User用户分为：普通用户、预审用户、初审用户
 
 普通用户只有项目申报页面
 
-- 
-
 预审用户/初审用户只有项目审核页面
+
+
 
 
 
@@ -203,7 +203,17 @@ User用户分为：普通用户、预审用户、初审用户
     "deemedAmount": 0,
     "remarks": "string",
     "userID": 1,
-    "approvalDate": "2024-09-30T08:46:18.063Z"
+    "approvalDate": "2024-09-30T08:46:18.063Z",
+    "approvalRecords": [
+      {
+        "approvalRecordID": 0,
+        "applicationFormID": 0,
+        "userID": 0,
+        "approvalDate": "2024-10-08T15:17:07.898Z",
+        "decision": 0,
+        "comments": "string"
+      }//若没有则传送空列表
+    ]
   }
   ```
 
@@ -314,13 +324,32 @@ User用户分为：普通用户、预审用户、初审用户
       /// 用户ID（关联到User表中）
       /// </summary>
       public int UserID { get; set; }
-      
+  
+  
       /// <summary>
       /// 申请时间（一次记录）
       /// </summary>
       public DateTime ApprovalDate { get; set; }
+  
+      //审批记录表中不放这个部分
+      public List<ApprovalRecordDTO> ApprovalRecords { get; set; } = new List<ApprovalRecordDTO>(); //这个也需要对DTO做映射处理
   }
   ```
+
+  ```c#
+  /// <summary> 审核表单DTO </summary>
+  public class ApprovalRecordDTO
+  {
+      public int ApprovalRecordID { get; set; }
+      public int ApplicationFormID { get; set; }
+      public int UserID { get; set; }
+      public DateTime ApprovalDate { get; set; }//时间
+      public int Decision { get; set; }//当前审批决定
+      public string Comments { get; set; }//审批原因
+  }
+  ```
+
+  
 
 - Put请求：/alterForm （修改表单）
 
@@ -346,10 +375,20 @@ User用户分为：普通用户、预审用户、初审用户
     "deemedAmount": 0,
     "remarks": "string",
     "userID": 1,
-    "approvalDate": "2024-09-30T08:46:18.063Z"
+    "approvalDate": "2024-09-30T08:46:18.063Z",
+    "approvalRecords": [
+      {
+        "approvalRecordID": 0,
+        "applicationFormID": 0,
+        "userID": 0,
+        "approvalDate": "2024-10-08T15:17:07.898Z",
+        "decision": 0,
+        "comments": "string"
+      }//若没有则传送空列表
+    ]
   }
   ```
-
+  
   C#承接类如上
 
 预审用户和初审用户只有审批权限：（并且初审用户需要填写部分表单信息，这些信息只有初审用户填写）
@@ -524,7 +563,96 @@ User用户分为：普通用户、预审用户、初审用户
   }
   ```
 
-  账户密码验证正确后，会返回和上方Get一样的结果。否则返回账号或密码不正确。
+  账户密码验证正确后，返回下方Json。否则返回账号或密码不正确。
+  
+  ```c#
+  {
+    "userID": 1,
+    "userPower": "普通用户",
+    "commonDatasModel": [
+      {
+        "formID": 1,
+        "projectLeader": "王晨",
+        "department": "数理学院",
+        "projectName": "数理XXXXXX1",
+        "projectCategory": "专业建设类",
+        "projectLevel": "国家级",
+        "approvalDate": "2024-10-01T11:03:00",
+        "decision": 0
+      },
+      {
+        "formID": 3,
+        "projectLeader": "王晨琛",
+        "department": "数理学院",
+        "projectName": "数理XXXXXX2",
+        "projectCategory": "专业建设类",
+        "projectLevel": "国家级",
+        "approvalDate": "2024-10-08T22:19:00",
+        "decision": 0
+      },
+      {
+        "formID": 4,
+        "projectLeader": "王晨以",
+        "department": "数理学院",
+        "projectName": "数理X1111",
+        "projectCategory": "专业建设类",
+        "projectLevel": "国家级",
+        "approvalDate": "2024-10-08T22:22:00",
+        "decision": 0
+      }
+    ]
+  }
+  ```
+  
+  //UserID和UserPower外，其余都和上方一致
+  
+  
 
 
-- 获取单个表单（审批记录有问题待做）
+- 获取单个表单
+
+  /getForm/{UserID}/{FormId}
+
+  > 这个FormID就是commonDatasModel中的FormID
+
+  返回值
+
+  ```c#
+  {
+    "applicationFormID": 1,
+    "projectLeader": "王晨",
+    "contactWay": "18200001111",
+    "department": "数理学院",
+    "projectName": "数理XXXXXX1",
+    "projectCategory": "专业建设类",
+    "projectLevel": "国家级",
+    "awardLevel": "一等第",
+    "participationForm": "个人",
+    "approvalFileName": "文件11111",
+    "approvalFileNumber": "100000000000X",
+    "itemDescription": "XXXXXXXXX",
+    "projectOutcome": "YYYYYYYYYY",
+    "decision": 0,
+    "auditDepartment": "string",
+    "comments": "string",
+    "recognitionLevel": "string",
+    "deemedAmount": 0,
+    "remarks": "string",
+    "userID": 1,
+    "approvalDate": "2024-10-01T11:03:00",
+    "approvalRecords": [
+      {
+        "approvalRecordID": 18,
+        "applicationFormID": 1,
+        "userID": 3,
+        "approvalDate": "2024-10-08T23:42:00",
+        "decision": 1,
+        "comments": "string"
+      }
+    ]
+  }
+  ```
+
+  
+
+  

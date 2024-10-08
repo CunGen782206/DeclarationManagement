@@ -39,9 +39,9 @@ public class ApplicationFormsController : ControllerBase
 
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
-            await PushNextTableSummary(record, nextUser);
+            await PushNextTableSummary(record, nextUser); 
 
-        return NoContent(); //请求成功但不返回内容 //TODO:返回左右的表单结构
+        return Ok(); //请求成功但不返回内容 //TODO:返回左右的表单结构
     }
 
     /// <summary>

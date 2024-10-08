@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeclarationManagement;
 
+/// <summary>
+/// 环境
+/// </summary>
 public class ApplicationDbContext : DbContext
 {
     public DbSet<User> Users { get; set; } //这个名称需要和数据库中的名称一致
