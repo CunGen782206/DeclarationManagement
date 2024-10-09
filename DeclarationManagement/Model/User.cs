@@ -9,11 +9,21 @@ public class User
     /// <summary> 用户ID </summary>
     public int UserID { get; set; }
 
-    /// <summary> 用户名称 </summary>
+    /// <summary> 用户登录名称 </summary>
     public string Username { get; set; }
 
     /// <summary> 密码 </summary>
     public string Password { get; set; }
+    
+    /// <summary>
+    /// Email地址
+    /// </summary>
+    public string Email { get; set; }
+    
+    /// <summary>
+    /// 用户名
+    /// </summary>
+    public string Name { get; set; }
 
     /// <summary> 角色 </summary>
     public string Role { get; set; }
