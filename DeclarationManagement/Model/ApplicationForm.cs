@@ -9,67 +9,67 @@ public class ApplicationForm
     /// <summary>
     /// 表单ID（自动生成）
     /// </summary>
-    public int ApplicationFormID { get; set; } //这个如果不指定未主键，则需要ApplicationForm+ID（类名+ID名）
+    public int ApplicationFormID { get; set; }//这个如果不指定未主键，则需要ApplicationForm+ID（类名+ID名）
 
     /// <summary>
     /// 项目负责人（可修改）
     /// </summary>
-    public string ProjectLeader { get; set; }
+    public string ProjectLeader { get; set; } = "";
 
     /// <summary>
     /// 联系方式（可修改）
     /// </summary>
-    public string ContactWay { get; set; }
+    public string ContactWay { get; set; } = "";
 
     /// <summary>
     /// 所属部门（可修改）
     /// </summary>
-    public string Department { get; set; }
+    public string Department { get; set; } = "";
 
     /// <summary>
     /// 项目名称（可修改）
     /// </summary>
-    public string ProjectName { get; set; }
+    public string ProjectName { get; set; } = "";
 
     /// <summary>
     /// 项目类别（可修改）
     /// </summary>
-    public string ProjectCategory { get; set; }
+    public string ProjectCategory { get; set; } = "";
 
     /// <summary>
     /// 项目等级（可修改）
     /// </summary>
-    public string ProjectLevel { get; set; }
+    public string ProjectLevel { get; set; } = "";
 
     /// <summary>
     /// 奖项级别（可修改）
     /// </summary>
-    public string AwardLevel { get; set; }
+    public string AwardLevel { get; set; } = "";
 
     /// <summary>
     /// 参与形式（可修改）
     /// </summary>
-    public string ParticipationForm { get; set; }
+    public string ParticipationForm { get; set; } = "";
 
     /// <summary>
     /// 认定批文文件名称（可修改）
     /// </summary>
-    public string ApprovalFileName { get; set; }
+    public string ApprovalFileName { get; set; } = "";
 
     /// <summary>
     /// 认定批文文件号（可修改）
     /// </summary>
-    public string ApprovalFileNumber { get; set; }
+    public string ApprovalFileNumber { get; set; } = "";
 
     /// <summary>
     /// 项目内容（可修改）
     /// </summary>
-    public string ItemDescription { get; set; }
+    public string ItemDescription { get; set; } = "";
 
     /// <summary>
     /// 项目成果（可修改）
     /// </summary>
-    public string ProjectOutcome { get; set; }
+    public string ProjectOutcome { get; set; } = "";
 
     /// <summary>
     /// 最终处理意见（可修改，（0未审核，1拟同意，2拟不同意，3不同意））
@@ -80,17 +80,17 @@ public class ApplicationForm
     /// <summary>
     /// 审核部门（最终输入）
     /// </summary>
-    public string AuditDepartment { get; set; }
+    public string AuditDepartment { get; set; } = "";
 
     /// <summary>
     /// 原因（最终输入）
     /// </summary>
-    public string Comments { get; set; }
+    public string Comments { get; set; } = "";
 
     /// <summary>
     /// 认定等级（最终输入）
     /// </summary>
-    public string RecognitionLevel { get; set; }
+    public string RecognitionLevel { get; set; } = "";
 
     /// <summary>
     /// 认定金额（最终输入）
@@ -100,7 +100,7 @@ public class ApplicationForm
     /// <summary>
     /// 备注（最终输入）
     /// </summary>
-    public string Remarks { get; set; }
+    public string Remarks { get; set; } = "";
 
     /// <summary>
     /// 用户ID（关联到User表中）

@@ -28,12 +28,12 @@ public class ApprovalCombineModel
     /// <summary>
     /// 审批意见（原因）
     /// </summary>
-    public string Comments { get; set; }
+    public string Comments { get; set; } = "";
     
     /// <summary>
     /// 认定等级
     /// </summary>
-    public string RecognitionLevel { get; set; }
+    public string RecognitionLevel { get; set; } = "";
     
     
     /// <summary>
@@ -44,7 +44,7 @@ public class ApprovalCombineModel
     /// <summary>
     /// 备注（选填）
     /// </summary>
-    public string Remarks { get; set; }
+    public string Remarks { get; set; } = "";
 
     #endregion
     

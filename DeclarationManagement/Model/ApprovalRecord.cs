@@ -33,7 +33,7 @@ public class ApprovalRecord
     /// <summary>
     /// 审批意见（拒绝或者同意的意见）
     /// </summary>
-    public string Comments { get; set; }
+    public string Comments { get; set; } = "";
 
     // 导航属性
     [ForeignKey("ApplicationFormID")] public ApplicationForm ApplicationForm { get; set; }

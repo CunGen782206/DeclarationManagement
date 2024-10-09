@@ -13,27 +13,27 @@ public class CommonDatasModel
     /// <summary>
     /// 项目负责人（可修改）
     /// </summary>
-    public string ProjectLeader { get; set; }
+    public string ProjectLeader { get; set; } = "";
 
     /// <summary>
     /// 所属部门（可修改）
     /// </summary>
-    public string Department { get; set; }
+    public string Department { get; set; } = "";
 
     /// <summary>
     /// 项目名称（可修改）
     /// </summary>
-    public string ProjectName { get; set; }
+    public string ProjectName { get; set; } = "";
 
     /// <summary>
     /// 项目类别（可修改）
     /// </summary>
-    public string ProjectCategory { get; set; }
+    public string ProjectCategory { get; set; } = "";
 
     /// <summary>
     /// 项目等级（可修改）
     /// </summary>
-    public string ProjectLevel { get; set; }
+    public string ProjectLevel { get; set; } = "";
 
     /// <summary>
     /// 申请时间（一次记录）

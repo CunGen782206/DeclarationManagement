@@ -8,5 +8,5 @@ public class ApprovalRecordDTO
     public int UserID { get; set; }
     public DateTime ApprovalDate { get; set; }
     public int Decision { get; set; }
-    public string Comments { get; set; }
+    public string Comments { get; set; } = "";
 }
