@@ -55,7 +55,7 @@
   | Remarks            | VARCHAR(8000)      | 是       | \    |                  |        | 备注（最终显示）选填                                         |
   | UserID             | INT                | 否       | \    | 关联User表UserID |        | 用户ID（申请人）                                             |
   | ApprovalDate       | SMALLDATETIME      | 否       | \    |                  |        | 申请时间（第一次自动赋值）                                   |
-  | States             | INT                |          |      |                  |        | 审核状态（0未审核，1预审已完成，2初审完成）完成代表通过或不通过。 |
+  | States             | INT                | 否       | \    |                  |        | 审核状态（0未审核，1预审已完成，2初审完成）完成代表通过或不通过。 |
   
 - 表：ApprovalRecords（审批记录表）生成后不再改变
 
@@ -187,16 +187,16 @@ User用户分为：普通用户、预审用户、初审用户
   ```json
   {
     "applicationFormID": 0,
-    "projectLeader": "王晨",
-    "contactWay": "18200001111",
-    "department": "数理学院",
+    "projectLeader": "王晨以",
+    "contactWay": "182222132312",
+    "department": "轨道交通学院",
     "projectName": "数理XXXXXX1",
     "projectCategory": "专业建设类",
     "projectLevel": "国家级",
     "awardLevel": "一等第",
     "participationForm": "个人",
     "approvalFileName": "文件11111",
-    "approvalFileNumber": "100000000000X",
+    "approvalFileNumber": "123124214",
     "itemDescription": "XXXXXXXXX",
     "projectOutcome": "YYYYYYYYYY",
     "decision": 0,
@@ -205,23 +205,15 @@ User用户分为：普通用户、预审用户、初审用户
     "recognitionLevel": "string",
     "deemedAmount": 0,
     "remarks": "string",
-    "userID": 1,
+    "userID": 45,
     "approvalDate": "2024-09-30T08:46:18.063Z",
-    "approvalRecords": [
-      {
-        "approvalRecordID": 0,
-        "applicationFormID": 0,
-        "userID": 0,
-        "approvalDate": "2024-10-08T15:17:07.898Z",
-        "decision": 0,
-        "comments": "string"
-      }//若没有则传送空列表
-    ]
+    "states": 0,
+    "approvalRecords": []
   }
   ```
-
+  
   C#承接类
-
+  
   ```c#
   namespace DeclarationManagement.Model.DTO;
   
@@ -338,7 +330,7 @@ User用户分为：普通用户、预审用户、初审用户
       public List<ApprovalRecordDTO> ApprovalRecords { get; set; } = new List<ApprovalRecordDTO>(); //这个也需要对DTO做映射处理
   }
   ```
-
+  
   ```c#
   /// <summary> 审核表单DTO </summary>
   public class ApprovalRecordDTO
@@ -351,9 +343,9 @@ User用户分为：普通用户、预审用户、初审用户
       public string Comments { get; set; }//审批原因
   }
   ```
-
   
-
+  
+  
 - Put请求：/alterForm （修改表单）
 
   ```json
@@ -379,6 +371,7 @@ User用户分为：普通用户、预审用户、初审用户
     "remarks": "string",
     "userID": 1,
     "approvalDate": "2024-09-30T08:46:18.063Z",
+    "states": 0,
     "approvalRecords": [
       {
         "approvalRecordID": 0,
@@ -614,11 +607,11 @@ User用户分为：普通用户、预审用户、初审用户
 
 - 获取单个表单
 
-  ```
   "/getForm/{getCode}/{FormId}"
-  ```
 
   > 这个FormID就是commonDatasModel中的FormID
+
+  getCode=0 则是直接查看表单 getCode=1 则是审核界面查看表单
 
   返回值
   
