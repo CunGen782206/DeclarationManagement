@@ -7,6 +7,6 @@ public class UserDTO
     public string Password { get; set; } = "";
     public string Role { get; set; } = "";
     public string Power { get; set; } = "";
-    public string Email { get; set; } = "";
+    public string JobNumber { get; set; } = "";
     public string Name { get; set; } = "";
 }

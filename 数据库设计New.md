@@ -17,13 +17,15 @@
   - 一个用户对应多个申请表单
   - 一个用户对应多个审批表汇总
 
-  | 字段名   | 数据类型           | 允许为空 | 主键 | 外键 | 默认值 | 说明                               |
-  | -------- | ------------------ | -------- | ---- | ---- | ------ | ---------------------------------- |
-  | UserID   | INT AUTO_INCREMENT | 否       | 是   |      |        | 用户ID                             |
-  | Username | VARCHAR(50)        | 否       | \    |      |        | 用户名称                           |
-  | Password | VARCHAR(255)       | 否       | \    |      |        | 密码（应使用哈希存储）             |
-  | Role     | VARCHAR(50)        | 否       | \    |      |        | 角色（理学院/教务处）              |
-  | Power    | VARCHAR(50)        | 否       | \    |      |        | 权限（普通用户/预审用户/初审用户） |
+  | 字段名    | 数据类型           | 允许为空 | 主键 | 外键 | 默认值 | 说明                               |
+  | --------- | ------------------ | -------- | ---- | ---- | ------ | ---------------------------------- |
+  | UserID    | INT AUTO_INCREMENT | 否       | 是   |      |        | 用户ID                             |
+  | Username  | VARCHAR(50)        | 否       | \    |      |        | 用户名称                           |
+  | Password  | VARCHAR(255)       | 否       | \    |      |        | 密码（应使用哈希存储）             |
+  | Role      | VARCHAR(50)        | 否       | \    |      |        | 角色（理学院/教务处）              |
+  | Power     | VARCHAR(50)        | 否       | \    |      |        | 权限（普通用户/预审用户/初审用户） |
+  | JobNumber | VARCHAR(50)        | 否       | \    |      |        | 工号                               |
+  | Name      | VARCHAR(50)        | 否       | \    |      |        | 姓名                               |
 
 - 表：ApplicationForm（申请表单）
 
@@ -53,6 +55,7 @@
   | Remarks            | VARCHAR(8000)      | 是       | \    |                  |        | 备注（最终显示）选填                                         |
   | UserID             | INT                | 否       | \    | 关联User表UserID |        | 用户ID（申请人）                                             |
   | ApprovalDate       | SMALLDATETIME      | 否       | \    |                  |        | 申请时间（第一次自动赋值）                                   |
+  | States             | INT                |          |      |                  |        | 审核状态（0未审核，1预审已完成，2初审完成）完成代表通过或不通过。 |
   
 - 表：ApprovalRecords（审批记录表）生成后不再改变
 
@@ -611,12 +614,14 @@ User用户分为：普通用户、预审用户、初审用户
 
 - 获取单个表单
 
-  /getForm/{UserID}/{FormId}
+  ```
+  "/getForm/{getCode}/{FormId}"
+  ```
 
   > 这个FormID就是commonDatasModel中的FormID
 
   返回值
-
+  
   ```c#
   {
     "applicationFormID": 1,
@@ -654,5 +659,24 @@ User用户分为：普通用户、预审用户、初审用户
   ```
 
   
-
   
+  
+  
+  
+  
+  # 修改部分：
+  
+  - [x] UserRole不作为判断依据：
+  
+    流转体系将UserRole改为Department；
+  
+  
+  
+  
+  
+  # 新增功能：
+  
+  - [ ] Excel导出功能
+  - [x] 修改密码的功能
+  - [ ] 教务处可以查看所有已经完成的审核
+  - [ ] 申请列表时，Department变为选项（默认从UserRole中获取）

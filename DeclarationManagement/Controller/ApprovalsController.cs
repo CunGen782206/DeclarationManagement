@@ -29,13 +29,16 @@ public class ApprovalsController : ControllerBase
     {
         var approvalUser = _context.Users.SingleOrDefault(u =>
             u.UserID == approvalCombineModel.UserID); //当前审核用户
-        switch (approvalUser.Power)
+        var applicationForm =
+            _context.ApplicationForms.SingleOrDefault(
+                a => a.ApplicationFormID == approvalCombineModel.applicationFormID);
+        switch (applicationForm.States)
         {
-            case nameof(Power.预审用户):
-                await Audition(approvalCombineModel, approvalUser);
+            case 0: //进入预审
+                await Audition(approvalCombineModel, approvalUser, applicationForm);
                 break;
-            case nameof(Power.初审用户):
-                await FirstTrial(approvalCombineModel, approvalUser);
+            case 1: //进入初审
+                await FirstTrial(approvalCombineModel, approvalUser, applicationForm);
                 break;
         }
 
@@ -52,12 +55,10 @@ public class ApprovalsController : ControllerBase
     /// </summary>
     /// <param name="approvalCombineModel">  </param>
     /// <param name="approvalUser"> 审核的用户 </param>
-    private async Task Audition(ApprovalCombineModel approvalCombineModel, User approvalUser)
+    private async Task Audition(ApprovalCombineModel approvalCombineModel, User approvalUser,
+        ApplicationForm applicationForm)
     {
         //查找对应的审核表单
-        var applicationForm = _context.ApplicationForms.SingleOrDefault(t =>
-            t.ApplicationFormID == approvalCombineModel.applicationFormID);
-
         //修改当前审批表（相当于修改状态）
         await AmendTableSummary(approvalCombineModel);
 
@@ -73,12 +74,14 @@ public class ApprovalsController : ControllerBase
             applicationForm.Decision = 3; //审批不通过
             applicationForm.AuditDepartment = approvalUser.Role;
             applicationForm.Comments = approvalCombineModel.Comments;
+            applicationForm.States = 1;
             await _context.SaveChangesAsync();
         }
         else
         {
             //查找下一级User
             applicationForm.Decision = 0;
+            applicationForm.States = 1;
             await _context.SaveChangesAsync();
             var nextUser = ApprovalTwo(applicationForm.ProjectCategory); //查找下一个层级
             await PushNextTableSummary(applicationForm, nextUser);
@@ -153,17 +156,15 @@ public class ApprovalsController : ControllerBase
     /// </summary>
     /// <param name="approvalCombineModel">  </param>
     /// <param name="approvalUser">  </param>
-    private async Task FirstTrial(ApprovalCombineModel approvalCombineModel, User approvalUser)
+    private async Task FirstTrial(ApprovalCombineModel approvalCombineModel, User approvalUser,
+        ApplicationForm applicationForm)
     {
-        //查找对应的审核表单
-        var applicationForm = _context.ApplicationForms.SingleOrDefault(t =>
-            t.ApplicationFormID == approvalCombineModel.applicationFormID);
-
         //修改当前审批表（相当于修改状态）
         await AmendTableSummary(approvalCombineModel);
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineModel, applicationForm, approvalUser);
         applicationForm.Decision = approvalCombineModel.Decision;
+        applicationForm.States = 2;
         await _context.SaveChangesAsync();
         if (approvalCombineModel.Decision == 3 || approvalCombineModel.Decision == 1) //通过或者不通过进行的操作
         {
@@ -202,17 +203,17 @@ public class ApprovalsController : ControllerBase
         {
             case nameof(ProjectCategory.师资建设类):
                 //TODO:组织人事处
-                return _context.Users.FirstOrDefault(f => (f.Role == "组织人事处") && (f.Power == nameof(Power.初审用户)));
+                return _context.Users.FirstOrDefault(f => (f.Role == "组织人事处") && (f.Power == nameof(Power.审核用户)));
             case nameof(ProjectCategory.教学成果类):
                 //TODO:科研处
-                return _context.Users.FirstOrDefault(f => (f.Role == "科研处") && (f.Power == nameof(Power.初审用户)));
+                return _context.Users.FirstOrDefault(f => (f.Role == "科研处") && (f.Power == nameof(Power.审核用户)));
             // case nameof(ProjectCategory.专业建设类):
             // case nameof(ProjectCategory.课程建设类):
             // case nameof(ProjectCategory.教学竞赛类):
             // case nameof(ProjectCategory.教材建设类):
             default:
                 //TODO:教务处
-                return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.初审用户)));
+                return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.审核用户)));
         }
     }
 }

@@ -31,15 +31,16 @@ public class ApplicationFormsController : ControllerBase
         user.ApplicationForms.Add(record);
         record.User = user;
         record.ApprovalDate = DateTime.Now;
+        record.States = 0;
         _context.ApplicationForms.Add(record); //向表中自动进行推送。
         await _context.SaveChangesAsync();
 
         //获得下一个审批人
-        var nextUser = ApprovalOne(record.User.Role, nameof(Power.预审用户));
+        var nextUser = ApprovalOne(record.Department, nameof(Power.审核用户));
 
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
-            await PushNextTableSummary(record, nextUser); 
+            await PushNextTableSummary(record, nextUser);
 
         return Ok(); //请求成功但不返回内容 //TODO:返回左右的表单结构
     }
@@ -86,11 +87,11 @@ public class ApplicationFormsController : ControllerBase
         _mapper.Map(modelDTO, applicationForm); //将表单进行数据替换
 
         //TODO:清空其他审核过程中的数据
-
+        record.States = 0;
         await _context.SaveChangesAsync();
 
         //获得下一个审批人
-        var nextUser = ApprovalOne(record.User.Role, nameof(Power.预审用户));
+        var nextUser = ApprovalOne(record.Department, nameof(Power.审核用户));
 
         // 推送到下一个审批人的汇总表
         if (nextUser != null)
@@ -104,25 +105,27 @@ public class ApplicationFormsController : ControllerBase
     #region 查看单个表单
 
     //如果是普通用户，则Form传入的是表单ID，如果是审核用户，传入的则是TableId
-    // GET: api/ApplicationForms/getForm
-    [HttpGet("/getForm/{UserId}/{FormId}")] //传入表格ID（获得表单）
-    public async Task<ActionResult> GetForms(int UserId,int FormId)
+    //getCode=0 则是直接查看表单 getCode=1 则是审核界面查看表单
+    [HttpGet("/getForm/{getCode}/{FormId}")] //传入表格ID（获得表单）
+    public async Task<ActionResult> GetForms(int getCode, int FormId)
     {
-        var user = _context.Users.SingleOrDefault(user => user.UserID == UserId);
-        if (user.Power != nameof(Power.普通用户))
+        if (getCode == 1)
         {
-           var table = _context.TableSummaries.SingleOrDefault(summary => summary.TableSummaryID == FormId);
-           FormId = table.ApplicationFormID;
+            var table = _context.TableSummaries.SingleOrDefault(summary => summary.TableSummaryID == FormId);
+            FormId = table.ApplicationFormID;
         }
-        
-        var applicationForm = _context.ApplicationForms.Include(applicationForm => applicationForm.ApprovalRecords).FirstOrDefault(form => form.ApplicationFormID == FormId);//需要通过Include加载关系
+
+        var applicationForm = _context.ApplicationForms.Include(applicationForm => applicationForm.ApprovalRecords)
+            .FirstOrDefault(form => form.ApplicationFormID == FormId); //需要通过Include加载关系
         // var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);//如果直接这样写就会出现错误。
 
         var applicationFormDto = _mapper.Map<ApplicationFormDTO>(applicationForm);
-        Console.WriteLine("nnnnnnnnnnnnnnnDTO："+applicationFormDto.ApprovalRecords.Count);
-        Console.WriteLine("nnnnnnnnnnnnnnn："+applicationForm.ApprovalRecords.Count);  //todo:这个两个值还是0；有问题的
+        // Console.WriteLine("nnnnnnnnnnnnnnnDTO："+applicationFormDto.ApprovalRecords.Count);
+        // Console.WriteLine("nnnnnnnnnnnnnnn："+applicationForm.ApprovalRecords.Count); 
         return Ok(applicationFormDto);
     }
+
+    //TODO:需要拆分
 
     #endregion
 }

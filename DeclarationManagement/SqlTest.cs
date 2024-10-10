@@ -56,8 +56,8 @@ CREATE TABLE [Users] (
     Username VARCHAR(50) NOT NULL,
     Password VARCHAR(255) NOT NULL,
     Role VARCHAR(50) NOT NULL,
-    Power VARCHAR(50) NOT NULL
-    Email VARCHAR(50) NULL
+    Power VARCHAR(50) NOT NULL,
+    JobNumber VARCHAR(50) NOT NULL,
     Name VARCHAR(50) NULL
 );
 
@@ -83,8 +83,9 @@ CREATE TABLE ApplicationForms (
     DeemedAmount DECIMAL(10, 2) NULL,
     Remarks VARCHAR(8000) NULL,
     UserID INT NOT NULL,
+    States INT NOT NULL,
     ApprovalDate SMALLDATETIME NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES [User](UserID)
+    FOREIGN KEY (UserID) REFERENCES [Users](UserID)
 );
 
 -- 创建审批记录表
@@ -95,8 +96,8 @@ CREATE TABLE ApprovalRecords (
     ApprovalDate SMALLDATETIME NOT NULL,
     Decision INT NOT NULL,
     Comments VARCHAR(8000) NULL,
-    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForm(ApplicationFormID),
-    FOREIGN KEY (UserID) REFERENCES [User](UserID)
+    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForms(ApplicationFormID),
+    FOREIGN KEY (UserID) REFERENCES [Users](UserID)
 );
 
 -- 创建审批表汇总
@@ -105,8 +106,8 @@ CREATE TABLE TableSummaries (
     UserID INT NOT NULL,
     ApplicationFormID INT NOT NULL,
     Decision INT NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES [User](UserID),
-    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForm(ApplicationFormID)
+    FOREIGN KEY (UserID) REFERENCES [Users](UserID),
+    FOREIGN KEY (ApplicationFormID) REFERENCES ApplicationForms(ApplicationFormID)
 );
 ";
 

@@ -109,6 +109,11 @@ public class ApplicationFormDTO
     /// </summary>
     public DateTime ApprovalDate { get; set; }
 
+    /// <summary>
+    /// 审核状态（0未审核，1预审已完成，2初审完成）完成代表通过或不通过。
+    /// </summary>
+    public int States { get; set; }
+
     //审批记录表中不放这个部分
     public List<ApprovalRecordDTO> ApprovalRecords { get; set; } = new List<ApprovalRecordDTO>(); //这个也需要对DTO做映射处理
 }

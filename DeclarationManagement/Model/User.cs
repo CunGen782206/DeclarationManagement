@@ -16,9 +16,9 @@ public class User
     public string Password { get; set; } = "";
     
     /// <summary>
-    /// Email地址
+    /// 工号
     /// </summary>
-    public string Email { get; set; } = "";
+    public string JobNumber { get; set; } = "";
     
     /// <summary>
     /// 用户名
@@ -44,6 +44,5 @@ public class User
 public enum Power
 {
     普通用户,
-    预审用户,
-    初审用户
+    审核用户,
 }

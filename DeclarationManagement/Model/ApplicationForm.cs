@@ -113,6 +113,10 @@ public class ApplicationForm
     /// </summary>
     public DateTime ApprovalDate { get; set; }
 
+    /// <summary>
+    /// 审核状态（0未审核，1预审已完成，2初审完成）完成代表通过或不通过。
+    /// </summary>
+    public int States { get; set; }
 
     /// <summary>
     /// 导航属性

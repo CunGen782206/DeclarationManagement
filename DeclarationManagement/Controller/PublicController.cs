@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeclarationManagement.Model;
+using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeclarationManagement.Controller;
@@ -34,36 +35,48 @@ public class PublicController : ControllerBase
 
         // 如果需要，在此生成身份验证令牌（例如 JWT）
 
-        return Ok(new
-            { userID = user.UserID, userPower = user.Power, commonDatasModel = GetStatesPrivate(user.UserID) }); //返回所需要的值
+        return Ok(user); //返回所需要的值
+    }
+
+    //TODO：修改密码
+    // POST: api/Account/login
+    [HttpPost("ChangePassword")]
+    public async Task<ActionResult> ChangePassword([FromBody] LoginViewModel model)
+    {
+        var user = _context.Users.SingleOrDefault(u => u.Username == model.Username);
+        user.Password = model.Password;
+        await _context.SaveChangesAsync();
+        return Ok(); //返回所需要的值
     }
 
     #endregion
 
     #region 登陆后查看当前用户的所有表单
 
-    //TODO:登录做在这里
-
-    [HttpGet("/getUserStates/{UserID}")] //查找当前用户的表单
-    public async Task<ActionResult> GetStates(int UserID)
-    {
-        return Ok(GetStatesPrivate(UserID));
-    }
-
-    private List<CommonDatasModel> GetStatesPrivate(int UserID)
+    /// <summary>
+    /// 审核表单
+    /// </summary>
+    /// <param name="UserID"></param>
+    /// <returns></returns>
+    [HttpGet("/getUserStates/approval/{UserID}")]
+    public async Task<ActionResult> GetStatesApproval(int UserID)
     {
         var user = _context.Users.SingleOrDefault(u => u.UserID == UserID);
-        List<CommonDatasModel> listDate;
-        if (user.Power == nameof(Power.普通用户))
-        {
-            listDate = GetCommonDatas(UserID);
-        }
-        else
-        {
-            listDate = GetApprovalDatas(UserID);
-        }
+        List<CommonDatasModel> listDate = GetApprovalDatas(UserID);
+        return Ok(listDate);
+    }
 
-        return listDate;
+    /// <summary>
+    /// 普通表单
+    /// </summary>
+    /// <param name="UserID"></param>
+    /// <returns></returns>
+    [HttpGet("/getUserStates/default/{UserID}")]
+    public async Task<ActionResult> GetStatesDe(int UserID)
+    {
+        var user = _context.Users.SingleOrDefault(u => u.UserID == UserID);
+        List<CommonDatasModel> listDate = GetCommonDatas(UserID);
+        return Ok(listDate);
     }
 
     /// <summary> 普通用户的返回数据 </summary>
@@ -110,10 +123,48 @@ public class PublicController : ControllerBase
     }
 
     #endregion
+
+    #region 查看所有已经完成审核的表格
+
+    /// <summary>
+    /// 查找所有表单（教务处汇总使用）
+    /// </summary>
+    /// <param name="UserID"></param>
+    /// <returns></returns>
+    [HttpGet("/getUserStates/allForm")]
+    public async Task<ActionResult> GetAllForm(int UserID)
+    {
+        var user = _context.Users.SingleOrDefault(u => u.UserID == UserID);
+        List<CommonDatasModel> listDate = GetAllFormDatas();
+        return Ok(listDate);
+    }
+
+    /// <summary> 普通用户的返回数据 </summary>
+    /// <returns></returns>
+    private List<CommonDatasModel> GetAllFormDatas()
+    {
+        var applicationForms = _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 2);
+        if (applicationForms.Any()) //判断是有元素
+        {
+            return applicationForms.Select(form => new CommonDatasModel(form)).ToList();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    #endregion
 }
 
 public class LoginViewModel
 {
     public string Username { get; set; }
     public string Password { get; set; }
+}
+
+public class ChangePasswordModel
+{
+    public string UserID { get; set; }
+    public string NewPassword { get; set; }
 }
