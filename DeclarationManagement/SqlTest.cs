@@ -57,6 +57,8 @@ CREATE TABLE [Users] (
     Password VARCHAR(255) NOT NULL,
     Role VARCHAR(50) NOT NULL,
     Power VARCHAR(50) NOT NULL
+    Email VARCHAR(50) NULL
+    Name VARCHAR(50) NULL
 );
 
 -- 创建申请表单
