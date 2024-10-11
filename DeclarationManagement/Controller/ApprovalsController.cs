@@ -3,6 +3,7 @@ using DeclarationManagement;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 /// <summary> 申请控制 </summary>
 [ApiController]
@@ -27,11 +28,28 @@ public class ApprovalsController : ControllerBase
     [HttpPost("/approvalForm")] //审核表单
     public async Task<ActionResult> ApprovalForm([FromBody] ApprovalCombineModel approvalCombineModel)
     {
-        var approvalUser = _context.Users.SingleOrDefault(u =>
+        if (approvalCombineModel == null)
+        {
+            return BadRequest("请求数据无效。");
+        }
+
+        var approvalUser = await _context.Users.SingleOrDefaultAsync(u =>
             u.UserID == approvalCombineModel.UserID); //当前审核用户
+
+        if (approvalUser == null)
+        {
+            return NotFound("审核用户不存在。");
+        }
+
         var applicationForm =
-            _context.ApplicationForms.SingleOrDefault(
+            await _context.ApplicationForms.SingleOrDefaultAsync(
                 a => a.ApplicationFormID == approvalCombineModel.applicationFormID);
+
+        if (applicationForm == null)
+        {
+            return NotFound("申请表单不存在。");
+        }
+
         switch (applicationForm.States)
         {
             case 0: //进入预审
@@ -40,6 +58,8 @@ public class ApprovalsController : ControllerBase
             case 1: //进入初审
                 await FirstTrial(approvalCombineModel, approvalUser, applicationForm);
                 break;
+            default:
+                return BadRequest("无效的申请表单状态。");
         }
 
         //返回所有审核表单
@@ -60,46 +80,58 @@ public class ApprovalsController : ControllerBase
     {
         //查找对应的审核表单
         //修改当前审批表（相当于修改状态）
-        await AmendTableSummary(approvalCombineModel);
+        var result = await AmendTableSummary(approvalCombineModel);
+
+        if (!result) return;
 
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineModel, applicationForm, approvalUser);
         if (approvalCombineModel.Decision == 2)
         {
             applicationForm.Decision = 2; //打回给原客户
-            await _context.SaveChangesAsync();
         }
         else if (approvalCombineModel.Decision == 3)
         {
             applicationForm.Decision = 3; //审批不通过
-            applicationForm.AuditDepartment = approvalUser.Role;
+            applicationForm.AuditDepartment = approvalUser.Role; //审核人
             applicationForm.Comments = approvalCombineModel.Comments;
             applicationForm.States = 1;
-            await _context.SaveChangesAsync();
         }
         else
         {
             //查找下一级User
             applicationForm.Decision = 0;
             applicationForm.States = 1;
-            await _context.SaveChangesAsync();
             var nextUser = ApprovalTwo(applicationForm.ProjectCategory); //查找下一个层级
-            await PushNextTableSummary(applicationForm, nextUser);
+            // 推送到下一个审批人的汇总表
+            if (nextUser != null)
+            {
+                await PushNextTableSummary(applicationForm, nextUser);
+            }
         }
+
+        await _context.SaveChangesAsync();
     }
 
 
     /// <summary>
     /// 修改当前审批表汇总的表格
     /// </summary>
-    private async Task AmendTableSummary(ApprovalCombineModel approvalCombineModel)
+    private async Task<bool> AmendTableSummary(ApprovalCombineModel approvalCombineModel)
     {
         //查找审核表
-        var currentTableSummary =
-            _context.TableSummaries.SingleOrDefault(t => t.TableSummaryID == approvalCombineModel.TableSummaryID);
+        var currentTableSummary = await
+            _context.TableSummaries.SingleOrDefaultAsync(t => t.TableSummaryID == approvalCombineModel.TableSummaryID);
+        if (currentTableSummary == null)
+        {
+            ModelState.AddModelError(string.Empty, "未找到对应的汇总表记录。");
+            return false;
+        }
+
         //修改审核表内容
         currentTableSummary.Decision = approvalCombineModel.Decision;
         await _context.SaveChangesAsync();
+        return true;
     }
 
     /// <summary>
@@ -120,7 +152,7 @@ public class ApprovalsController : ControllerBase
             ApplicationForm = applicationForm,
             User = approvalUser
         };
-        _context.ApprovalRecords.Add(newApprovalRecord);
+        await _context.ApprovalRecords.AddAsync(newApprovalRecord);
         await _context.SaveChangesAsync();
         applicationForm.ApprovalRecords.Add(newApprovalRecord);
         await _context.SaveChangesAsync();
@@ -133,18 +165,16 @@ public class ApprovalsController : ControllerBase
     /// <param name="nextUser"> 推送用户 </param>
     private async Task PushNextTableSummary(ApplicationForm applicationForm, User nextUser)
     {
-        if (nextUser != null)
+        _context.TableSummaries.Add(new TableSummary
         {
-            _context.TableSummaries.Add(new TableSummary
-            {
-                UserID = nextUser.UserID,
-                ApplicationFormID = applicationForm.ApplicationFormID,
-                User = _context.Users.SingleOrDefault(user => user.UserID == nextUser.UserID), //查找ID(绑定关系)
-                Decision = 0, //未进行审核(可以放置到表格自动初始化中)
-                ApplicationForm = applicationForm
-            });
-            await _context.SaveChangesAsync();
-        }
+            UserID = nextUser.UserID,
+            ApplicationFormID = applicationForm.ApplicationFormID,
+            User = _context.Users.SingleOrDefault(user => user.UserID == nextUser.UserID), //查找ID(绑定关系)
+            Decision = 0, //未进行审核(可以放置到表格自动初始化中)
+            ApplicationForm = applicationForm
+        });
+        
+        await _context.SaveChangesAsync();
     }
 
     #endregion
@@ -160,16 +190,19 @@ public class ApprovalsController : ControllerBase
         ApplicationForm applicationForm)
     {
         //修改当前审批表（相当于修改状态）
-        await AmendTableSummary(approvalCombineModel);
+        var result =await AmendTableSummary(approvalCombineModel);
+        if(!result) return;
+        
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineModel, applicationForm, approvalUser);
         applicationForm.Decision = approvalCombineModel.Decision;
         applicationForm.States = 2;
-        await _context.SaveChangesAsync();
+        
         if (approvalCombineModel.Decision == 3 || approvalCombineModel.Decision == 1) //通过或者不通过进行的操作
         {
             await AmendApplicationFormDTO(approvalCombineModel, applicationForm, approvalUser);
         }
+        await _context.SaveChangesAsync();
     }
 
     /// <summary>
@@ -184,7 +217,6 @@ public class ApprovalsController : ControllerBase
         applicationForm.RecognitionLevel = approvalCombineModel.RecognitionLevel;
         applicationForm.DeemedAmount = approvalCombineModel.DeemedAmount;
         applicationForm.Remarks = approvalCombineModel.Remarks;
-        await _context.SaveChangesAsync();
     }
 
     #endregion
