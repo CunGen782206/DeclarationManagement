@@ -9,4 +9,5 @@ public class ApprovalRecordDTO
     public DateTime ApprovalDate { get; set; }
     public int Decision { get; set; }
     public string Comments { get; set; } = "";
+    public UserDTO User { get; set; }
 }

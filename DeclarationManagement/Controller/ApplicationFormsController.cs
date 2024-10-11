@@ -125,23 +125,26 @@ public class ApplicationFormsController : ControllerBase
 
     //如果是普通用户，则Form传入的是表单ID，如果是审核用户，传入的则是TableId
     //getCode=0 则是直接查看表单 getCode=1 则是审核界面查看表单
-    [HttpGet("/getForm/{getCode:int}/{FormId:int}")] //传入表格ID（获得表单）
-    public async Task<ActionResult> GetForms(int getCode, int FormId)
+    [HttpPost("/getForm")] //传入表格ID（获得表单）
+    public async Task<ActionResult> GetForms([FromBody] GetFormsModel getFormsModel)
     {
-        if (getCode == 1)
+        int tableSummaries = 0;
+        if (getFormsModel.getCode == 1)
         {
-            var table = await _context.TableSummaries.SingleOrDefaultAsync(summary => summary.TableSummaryID == FormId);
+            var table = await _context.TableSummaries.SingleOrDefaultAsync(summary =>
+                summary.TableSummaryID == getFormsModel.FormID);
             if (table == null)
             {
                 return NotFound("汇总表记录不存在。");
             }
 
-            FormId = table.ApplicationFormID; //获取当前表单
+            tableSummaries = table.TableSummaryID;
+            getFormsModel.FormID = table.ApplicationFormID; //获取当前表单
         }
 
         var applicationForm = await _context.ApplicationForms
-            .Include(applicationForm => applicationForm.ApprovalRecords)
-            .FirstOrDefaultAsync(form => form.ApplicationFormID == FormId); //需要通过Include加载关系
+            .Include(applicationForm => applicationForm.ApprovalRecords).ThenInclude(approvalRecord => approvalRecord.User)
+            .FirstOrDefaultAsync(form => form.ApplicationFormID == getFormsModel.FormID); //需要通过Include加载关系
         // var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);//如果直接这样写就会出现错误。
         if (applicationForm == null)
         {
@@ -149,10 +152,16 @@ public class ApplicationFormsController : ControllerBase
         }
 
         var applicationFormDto = _mapper.Map<ApplicationFormDTO>(applicationForm);
-        return Ok(applicationFormDto);
+        return Ok(new { tableSummaries, applicationFormDto });
     }
 
     //TODO:需要拆分
 
     #endregion
+}
+
+public class GetFormsModel
+{
+    public int getCode { get; set; }
+    public int FormID { get; set; }
 }

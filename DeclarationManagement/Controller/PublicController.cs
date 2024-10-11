@@ -36,7 +36,8 @@ public class PublicController : ControllerBase
 
         // 如果需要，在此生成身份验证令牌（例如 JWT）
 
-        return Ok(user); //返回所需要的值
+        var userDto = _mapper.Map<UserDTO>(user);
+        return Ok(userDto); //返回所需要的值
     }
 
     //TODO：修改密码
@@ -66,16 +67,17 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="UserID"></param>
     /// <returns></returns>
-    [HttpGet("/getUserStates/approval/{UserID}")]
-    public async Task<ActionResult> GetStatesApproval(int UserID)
+    [HttpPost("/getUserStates/approval")]
+    public async Task<ActionResult> GetStatesApproval([FromBody] UserDTO user)
     {
-        var userExists = await _context.Users.AnyAsync(u => u.UserID == UserID);
+        var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
         if (!userExists)
         {
             return NotFound("用户不存在");
         }
 
-        List<CommonDatasModel> listDate = await GetApprovalDatas(UserID);
+        List<CommonDatasModel> listDate = await GetApprovalDatas(user.UserID);
+        if (listDate == null) listDate = new();
         return Ok(listDate);
     }
 
@@ -84,16 +86,17 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="UserID"></param>
     /// <returns></returns>
-    [HttpGet("/getUserStates/default/{UserID}")]
-    public async Task<ActionResult> GetStatesDe(int UserID)
+    [HttpPost("/getUserStates/default")]
+    public async Task<ActionResult> GetStatesDe([FromBody] UserDTO user)
     {
-        var userExists = await _context.Users.AnyAsync(u => u.UserID == UserID);
+        var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
         if (!userExists)
         {
             return NotFound("用户不存在");
         }
 
-        List<CommonDatasModel> listDate = await GetCommonDatas(UserID);
+        List<CommonDatasModel> listDate = await GetCommonDatas(user.UserID);
+        if (listDate == null) listDate = new();
         return Ok(listDate);
     }
 
@@ -153,6 +156,7 @@ public class PublicController : ControllerBase
     public async Task<ActionResult> GetAllForm()
     {
         List<CommonDatasModel> listDate = await GetAllFormDatas();
+        if (listDate == null) listDate = new();
         return Ok(listDate);
     }
 
