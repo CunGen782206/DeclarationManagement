@@ -168,3 +168,10 @@ E:\CSharp\DeclarationManagement\DeclarationManagement\obj\Debug\net8.0\Declarati
 E:\CSharp\DeclarationManagement\DeclarationManagement\obj\Debug\net8.0\ref\DeclarationManagement.dll
 E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\AutoMapper.dll
 E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\AutoMapper.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\EPPlus.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\System.Drawing.Common.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\System.Xml.XPath.XmlDocument.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
