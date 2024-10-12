@@ -173,7 +173,7 @@ public class ApprovalsController : ControllerBase
             Decision = 0, //未进行审核(可以放置到表格自动初始化中)
             ApplicationForm = applicationForm
         });
-        
+
         await _context.SaveChangesAsync();
     }
 
@@ -190,18 +190,19 @@ public class ApprovalsController : ControllerBase
         ApplicationForm applicationForm)
     {
         //修改当前审批表（相当于修改状态）
-        var result =await AmendTableSummary(approvalCombineModel);
-        if(!result) return;
-        
+        var result = await AmendTableSummary(approvalCombineModel);
+        if (!result) return;
+
         //创建新的审批记录表
         await CreateApprovalRecords(approvalCombineModel, applicationForm, approvalUser);
         applicationForm.Decision = approvalCombineModel.Decision;
         applicationForm.States = 2;
-        
+
         if (approvalCombineModel.Decision == 3 || approvalCombineModel.Decision == 1) //通过或者不通过进行的操作
         {
             await AmendApplicationFormDTO(approvalCombineModel, applicationForm, approvalUser);
         }
+
         await _context.SaveChangesAsync();
     }
 
@@ -214,7 +215,8 @@ public class ApprovalsController : ControllerBase
     {
         applicationForm.AuditDepartment = approvalUser.Role;
         applicationForm.Comments = approvalCombineModel.Comments;
-        applicationForm.RecognitionLevel = approvalCombineModel.RecognitionLevel;
+        applicationForm.RecognitionProjectLevel = approvalCombineModel.RecognitionProjectLevel;
+        applicationForm.RecognitionAwardLevel = approvalCombineModel.RecognitionAwardLevel;
         applicationForm.DeemedAmount = approvalCombineModel.DeemedAmount;
         applicationForm.Remarks = approvalCombineModel.Remarks;
     }
@@ -234,17 +236,14 @@ public class ApprovalsController : ControllerBase
         switch (projectCategory)
         {
             case nameof(ProjectCategory.师资建设类):
-                //TODO:组织人事处
                 return _context.Users.FirstOrDefault(f => (f.Role == "组织人事处") && (f.Power == nameof(Power.审核用户)));
             case nameof(ProjectCategory.教学成果类):
-                //TODO:科研处
                 return _context.Users.FirstOrDefault(f => (f.Role == "科研处") && (f.Power == nameof(Power.审核用户)));
             // case nameof(ProjectCategory.专业建设类):
             // case nameof(ProjectCategory.课程建设类):
             // case nameof(ProjectCategory.教学竞赛类):
             // case nameof(ProjectCategory.教材建设类):
             default:
-                //TODO:教务处
                 return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.审核用户)));
         }
     }

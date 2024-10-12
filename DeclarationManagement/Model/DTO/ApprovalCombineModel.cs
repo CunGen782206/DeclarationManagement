@@ -29,11 +29,21 @@ public class ApprovalCombineModel
     /// 审批意见（原因）
     /// </summary>
     public string Comments { get; set; } = "";
+
+    /// <summary>
+    /// 认定项目等级
+    /// </summary>
+    public string RecognitionProjectLevel { get; set; }
     
+    /// <summary>
+    /// 认定奖项级别
+    /// </summary>
+    public string RecognitionAwardLevel { get; set; }
+
     /// <summary>
     /// 认定等级
     /// </summary>
-    public string RecognitionLevel { get; set; } = "";
+    // public string RecognitionLevel { get; set; } = "";
     
     
     /// <summary>

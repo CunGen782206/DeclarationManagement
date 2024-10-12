@@ -88,9 +88,14 @@ public class ApplicationForm
     public string Comments { get; set; } = "";
 
     /// <summary>
-    /// 认定等级（最终输入）
+    /// 认定项目等级
     /// </summary>
-    public string RecognitionLevel { get; set; } = "";
+    public string RecognitionProjectLevel { get; set; }
+    
+    /// <summary>
+    /// 认定奖项级别
+    /// </summary>
+    public string RecognitionAwardLevel { get; set; }
 
     /// <summary>
     /// 认定金额（最终输入）
