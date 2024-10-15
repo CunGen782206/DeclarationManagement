@@ -112,8 +112,7 @@ public class ApplicationFormDTO
     /// 用户ID（关联到User表中）
     /// </summary>
     public int UserID { get; set; }
-
-
+    
     /// <summary>
     /// 申请时间（一次记录）
     /// </summary>

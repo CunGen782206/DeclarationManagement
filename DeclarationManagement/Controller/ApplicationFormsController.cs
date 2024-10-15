@@ -84,7 +84,6 @@ public class ApplicationFormsController : ControllerBase
     #endregion
 
     #region 修改表单 //TODO:要进行修改的部分
-
     // POST: api/ApplicationForms/alterForm
     [HttpPut("/alterForm")] //修改表单
     public async Task<ActionResult> AlterForm([FromBody] ApplicationFormDTO modelDTO)
@@ -118,11 +117,9 @@ public class ApplicationFormsController : ControllerBase
 
         return Ok("修改成功"); //请求成功但不返回内容
     }
-
     #endregion
 
     #region 查看单个表单
-
     //如果是普通用户，则Form传入的是表单ID，如果是审核用户，传入的则是TableId
     //getCode=0 则是直接查看表单 getCode=1 则是审核界面查看表单
     [HttpPost("/getForm")] //传入表格ID（获得表单）
@@ -158,6 +155,16 @@ public class ApplicationFormsController : ControllerBase
     //TODO:需要拆分
 
     #endregion
+    
+    #region 取消单个表单
+    [HttpPost("/cancelForm")] //传入表格ID（获得表单）
+    public async Task<ActionResult> CancelForms([FromBody] CancelForm fileName)
+    {
+
+        return Ok("1");
+    }
+
+    #endregion
 }
 
 public class GetFormsModel
@@ -165,3 +172,9 @@ public class GetFormsModel
     public int getCode { get; set; }
     public int FormID { get; set; }
 }
+
+public class CancelForm
+{
+    public string FileName { get; set; }
+}
+
