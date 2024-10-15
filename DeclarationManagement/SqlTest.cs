@@ -74,6 +74,7 @@ CREATE TABLE ApplicationForms (
     ParticipationForm VARCHAR(50) NOT NULL,
     ApprovalFileName VARCHAR(500) NOT NULL,
     ApprovalFileNumber VARCHAR(500) NOT NULL,
+    ApprovalFileAttachmentName VARCHAR(500) NULL,
     ItemDescription VARCHAR(8000) NOT NULL,
     ProjectOutcome VARCHAR(8000) NOT NULL,
     Decision Int NOT NULL,

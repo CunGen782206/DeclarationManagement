@@ -60,6 +60,11 @@ public class ApplicationForm
     /// 认定批文文件号（可修改）
     /// </summary>
     public string ApprovalFileNumber { get; set; } = "";
+    
+    /// <summary>
+    /// 认定批文附件名称（可修改）
+    /// </summary>
+    public string ApprovalFileAttachmentName { get; set; } = "";
 
     /// <summary>
     /// 项目内容（可修改）
@@ -96,6 +101,7 @@ public class ApplicationForm
     /// 认定奖项级别
     /// </summary>
     public string RecognitionAwardLevel { get; set; }
+    
 
     /// <summary>
     /// 认定金额（最终输入）

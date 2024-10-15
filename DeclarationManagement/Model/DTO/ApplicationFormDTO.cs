@@ -56,6 +56,11 @@ public class ApplicationFormDTO
     /// 认定批文文件号（可修改）
     /// </summary>
     public string ApprovalFileNumber { get; set; } = "";
+     
+    /// <summary>
+    /// 认定批文附件名称（可修改）
+    /// </summary>
+    public string ApprovalFileAttachmentName { get; set; } = "";
 
     /// <summary>
     /// 项目内容（可修改）
