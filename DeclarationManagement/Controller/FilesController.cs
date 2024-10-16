@@ -11,7 +11,7 @@ namespace DeclarationManagement.Controller;
 [Route("api/[controller]")]
 public class FilesController : ControllerBase
 {
-    private readonly string _uploadFolder;
+    public static string _uploadFolder;
 
     
     /// <summary> 创建文件夹 </summary>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeclarationManagement;
+using DeclarationManagement.Controller;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,17 @@ public class ApplicationFormsController : ControllerBase
         record.ApprovalDate = DateTime.Now;
         record.States = 0;
 
+        #region 修改文件名
+
+        if (string.IsNullOrEmpty(record.ApprovalFileAttachmentName))
+        {
+            var newFileName = $"{Guid.NewGuid()}_{user.Role}_{user.Name}_{record.ApprovalFileAttachmentName}";
+            RenamingFile(record.ApprovalFileAttachmentName, newFileName);
+            record.ApprovalFileAttachmentName = newFileName;
+        }
+
+        #endregion
+
         // 添加表单到数据库
         await _context.ApplicationForms.AddAsync(record); //向表中自动进行推送。
         await _context.SaveChangesAsync();
@@ -76,14 +88,31 @@ public class ApplicationFormsController : ControllerBase
     }
 
     /// <summary> 预审核 </summary>
-    private async Task<User> ApprovalOne(string Department, string power)
+    private async Task<User> ApprovalOne(string department, string power)
     {
-        return await _context.Users.FirstOrDefaultAsync(f => (f.Role == Department) && (f.Power == power));
+        return await _context.Users.FirstOrDefaultAsync(f => (f.Role == department) && (f.Power == power));
+    }
+
+    /// <summary>
+    /// 修改文件名
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="rename"></param>
+    private async Task RenamingFile(string fileName, string rename)
+    {
+        if (string.IsNullOrEmpty(fileName))
+            return;
+        var filePath = Path.Combine(FilesController._uploadFolder, fileName);
+        if (!System.IO.File.Exists(filePath))
+            return;
+        var filePathRemove = Path.Combine(FilesController._uploadFolder, rename);
+        System.IO.File.Move(filePath, filePathRemove);
     }
 
     #endregion
 
     #region 修改表单 //TODO:要进行修改的部分
+
     // POST: api/ApplicationForms/alterForm
     [HttpPut("/alterForm")] //修改表单
     public async Task<ActionResult> AlterForm([FromBody] ApplicationFormDTO modelDTO)
@@ -117,9 +146,11 @@ public class ApplicationFormsController : ControllerBase
 
         return Ok("修改成功"); //请求成功但不返回内容
     }
+
     #endregion
 
     #region 查看单个表单
+
     //如果是普通用户，则Form传入的是表单ID，如果是审核用户，传入的则是TableId
     //getCode=0 则是直接查看表单 getCode=1 则是审核界面查看表单
     [HttpPost("/getForm")] //传入表格ID（获得表单）
@@ -140,7 +171,8 @@ public class ApplicationFormsController : ControllerBase
         }
 
         var applicationForm = await _context.ApplicationForms
-            .Include(applicationForm => applicationForm.ApprovalRecords).ThenInclude(approvalRecord => approvalRecord.User)
+            .Include(applicationForm => applicationForm.ApprovalRecords)
+            .ThenInclude(approvalRecord => approvalRecord.User)
             .FirstOrDefaultAsync(form => form.ApplicationFormID == getFormsModel.FormID); //需要通过Include加载关系
         // var applicationForm = _context.ApplicationForms.FirstOrDefault(form => form.ApplicationFormID == FormId);//如果直接这样写就会出现错误。
         if (applicationForm == null)
@@ -155,13 +187,20 @@ public class ApplicationFormsController : ControllerBase
     //TODO:需要拆分
 
     #endregion
-    
+
     #region 取消单个表单
+
     [HttpPost("/cancelForm")] //传入表格ID（获得表单）
     public async Task<ActionResult> CancelForms([FromBody] CancelForm fileName)
     {
+        if (string.IsNullOrEmpty(fileName.FileName))
+            return BadRequest("文件名不能为空");
 
-        return Ok("1");
+        var filePath = Path.Combine(FilesController._uploadFolder, fileName.FileName);
+        if (!System.IO.File.Exists(filePath))
+            return NotFound("文件未找到");
+        System.IO.File.Delete(filePath); //删除文件
+        return Ok("删除完成");
     }
 
     #endregion
@@ -177,4 +216,3 @@ public class CancelForm
 {
     public string FileName { get; set; }
 }
-
