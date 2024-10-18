@@ -67,7 +67,7 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="UserID"></param>
     /// <returns></returns>
-    [HttpPost("/getUserStates/approval")]
+    [HttpPost("/getUserStates/approval")] //查看审核表单
     public async Task<ActionResult> GetStatesApproval([FromBody] UserDTO user)
     {
         var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
@@ -86,7 +86,7 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="UserID"></param>
     /// <returns></returns>
-    [HttpPost("/getUserStates/default")]
+    [HttpPost("/getUserStates/default")] //查看普通表单
     public async Task<ActionResult> GetStatesDe([FromBody] UserDTO user)
     {
         var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
@@ -120,7 +120,7 @@ public class PublicController : ControllerBase
     /// <returns></returns>
     private async Task<List<CommonDatasModel>> GetApprovalDatas(int userID)
     {
-        var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID);
+        var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID); //查找当前Id下所有的审核表单
         if (await tableSummaries.AnyAsync())
         {
             return await tableSummaries.Select(table => CreateCommonData(table, _context)).ToListAsync();
@@ -132,7 +132,7 @@ public class PublicController : ControllerBase
     }
 
     /// <summary>
-    /// 创建CreateCommonData
+    /// 创建审核表单的信息
     /// </summary>
     /// <param name="tableSummary"></param>
     /// <returns></returns>
@@ -164,7 +164,7 @@ public class PublicController : ControllerBase
     /// <returns></returns>
     private async Task<List<CommonDatasModel>> GetAllFormDatas()
     {
-        var applicationForms = _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 2);
+        var applicationForms = _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 3);
         if (await applicationForms.AnyAsync()) //判断是有元素
         {
             return await applicationForms.Select(form => new CommonDatasModel(form)).ToListAsync();

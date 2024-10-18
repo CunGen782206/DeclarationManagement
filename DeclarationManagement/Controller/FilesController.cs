@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
+
 namespace DeclarationManagement.Controller;
 
-
 /// <summary> 文件控制 </summary>
-
 [ApiController]
 [Route("api/[controller]")]
 public class FilesController : ControllerBase
 {
     public static string _uploadFolder;
 
-    
+
     /// <summary> 创建文件夹 </summary>
     /// <param name="fileSettings"></param>
     public FilesController(IOptions<FileSettings> fileSettings)
@@ -47,14 +46,18 @@ public class FilesController : ControllerBase
 
         // 安全处理文件名，移除路径信息
         var fileName = Path.GetFileName(file.FileName);
-        var filePath = Path.Combine(_uploadFolder, fileName);
+
+        // 可选：为文件名生成唯一标识，防止冲突
+        var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+
+        var filePath = Path.Combine(_uploadFolder, uniqueFileName);
 
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
-        return Ok(new { message = "文件上传成功", fileName });
+        return Ok(new { message = "文件上传成功", fileName = uniqueFileName });
     }
 
     /// <summary>

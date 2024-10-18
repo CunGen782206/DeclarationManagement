@@ -44,17 +44,6 @@ public class ApplicationFormsController : ControllerBase
         record.ApprovalDate = DateTime.Now;
         record.States = 0;
 
-        #region 修改文件名
-
-        if (string.IsNullOrEmpty(record.ApprovalFileAttachmentName))
-        {
-            var newFileName = $"{Guid.NewGuid()}_{user.Role}_{user.Name}_{record.ApprovalFileAttachmentName}";
-            RenamingFile(record.ApprovalFileAttachmentName, newFileName);
-            record.ApprovalFileAttachmentName = newFileName;
-        }
-
-        #endregion
-
         // 添加表单到数据库
         await _context.ApplicationForms.AddAsync(record); //向表中自动进行推送。
         await _context.SaveChangesAsync();
@@ -92,23 +81,7 @@ public class ApplicationFormsController : ControllerBase
     {
         return await _context.Users.FirstOrDefaultAsync(f => (f.Role == department) && (f.Power == power));
     }
-
-    /// <summary>
-    /// 修改文件名
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="rename"></param>
-    private async Task RenamingFile(string fileName, string rename)
-    {
-        if (string.IsNullOrEmpty(fileName))
-            return;
-        var filePath = Path.Combine(FilesController._uploadFolder, fileName);
-        if (!System.IO.File.Exists(filePath))
-            return;
-        var filePathRemove = Path.Combine(FilesController._uploadFolder, rename);
-        System.IO.File.Move(filePath, filePathRemove);
-    }
-
+    
     #endregion
 
     #region 修改表单 //TODO:要进行修改的部分
