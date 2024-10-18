@@ -103,7 +103,7 @@ public class FilesController : ControllerBase
         {
             contentType = "application/octet-stream";
         }
-
+        
         return contentType;
     }
 }
