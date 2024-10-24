@@ -108,6 +108,7 @@ public class ApplicationFormsController : ControllerBase
 
         //TODO:清空其他审核过程中的数据
         applicationForm.States = 0;
+        applicationForm.Decision = 0;
         await _context.SaveChangesAsync();
 
         //获得下一个审批人
