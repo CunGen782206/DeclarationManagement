@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
-using System.IO;
-using System.IO.Compression;
-using System.Threading.Tasks;
+﻿using DeclarationManagement.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using CompressionLevel = System.IO.Compression.CompressionLevel;
+using OfficeOpenXml;
 
 namespace DeclarationManagement.Controller;
 
@@ -18,17 +13,10 @@ namespace DeclarationManagement.Controller;
 public class CreateExcelController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    private readonly string _filesDirectory = @"I:\BaiduSyncdisk\Book";//压缩文件
-    private readonly string _filesDirectory1 = @"I:\BaiduSyncdisk"; //压缩后文件位置
 
     public CreateExcelController(ApplicationDbContext context)
     {
         _context = context;
-        // 确保目标文件夹存在
-        if (!Directory.Exists(_filesDirectory))
-        {
-            Directory.CreateDirectory(_filesDirectory);
-        }
     }
 
     [HttpGet("export")]
@@ -37,20 +25,11 @@ public class CreateExcelController : ControllerBase
         // 获取数据
         var applicationForms = await _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 3)
             .ToListAsync();
-        
+
         if (applicationForms == null) applicationForms = new();
 
-        // 生成Excel文件
-        string excelFileName = $"{DateTime.Now:yyyy}年度教学质量工程项目初审结果汇总表.xlsx";
-        string excelFilePath = Path.Combine(_filesDirectory, excelFileName);
-        if (System.IO.File.Exists(excelFilePath))
-        {
-            System.IO.File.Delete(excelFilePath);
-        }
-        FileInfo fileInfo = new(excelFilePath);
-
         // 使用 EPPlus 生成 Excel 文件
-        using (var package = new ExcelPackage(fileInfo))
+        using (var package = new ExcelPackage())
         {
             // 添加工作表
             var worksheet = package.Workbook.Worksheets.Add("Products");
@@ -102,7 +81,6 @@ public class CreateExcelController : ControllerBase
                         decision = "";
                         break;
                 }
-            
                 worksheet.Cells[row, 13].Value = decision;
                 worksheet.Cells[row, 14].Value = applicationForm.Comments;
                 worksheet.Cells[row, 15].Value = applicationForm.RecognitionProjectLevel;
@@ -115,62 +93,15 @@ public class CreateExcelController : ControllerBase
             // 自动调整列宽
             worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
 
+            // 将 Excel 包保存到内存流中
+            var stream = new MemoryStream();
+            package.SaveAs(stream);
+            stream.Position = 0;
 
-            // 将 Excel 包保存到文件
-            package.Save();
-        }
+            // 返回文件流
+            string excelName = $"Products-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
 
-        // 压缩指定文件夹
-        string zipFileName = $"Files-{DateTime.Now:yyyyMMddHHmmssfff}.zip";
-        string zipFilePath = Path.Combine(_filesDirectory1, zipFileName);
-
-        try
-        {
-            // 如果zip文件已存在，删除它
-            if (System.IO.File.Exists(zipFilePath))
-            {
-                System.IO.File.Delete(zipFilePath);
-            }
-
-            // 压缩指定文件夹
-            // 使用异步压缩（需自定义实现，因为ZipFile.CreateFromDirectory是同步的）
-            await Task.Run(() => ZipFile.CreateFromDirectory(_filesDirectory, zipFilePath, CompressionLevel.Optimal, false));
-        }
-        catch (Exception ex)
-        {
-            // 处理压缩过程中可能出现的异常
-            return StatusCode(500, $"压缩文件夹时出错: {ex.Message}");
-        }
-
-        // 读取压缩文件并返回给前端
-        try
-        {
-            var zipBytes = await System.IO.File.ReadAllBytesAsync(zipFilePath);
-            return File(zipBytes, "application/zip", zipFileName);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"读取压缩文件时出错: {ex.Message}");
-        }
-        finally
-        {
-            // 可选：删除生成的Excel和Zip文件以节省空间
-            try
-            {
-                if (System.IO.File.Exists(excelFilePath))
-                {
-                    System.IO.File.Delete(excelFilePath);
-                }
-
-                if (System.IO.File.Exists(zipFilePath))
-                {
-                    System.IO.File.Delete(zipFilePath);
-                }
-            }
-            catch
-            {
-                // 记录日志或忽略
-            }
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }
 }
