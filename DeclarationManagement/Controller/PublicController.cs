@@ -120,10 +120,20 @@ public class PublicController : ControllerBase
     /// <returns></returns>
     private async Task<List<CommonDatasModel>> GetApprovalDatas(int userID)
     {
-        var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID); //查找当前Id下所有的审核表单
-        if (await tableSummaries.AnyAsync())
+        var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID)
+            .OrderByDescending(summaries => summaries.TableSummaryID); //查找当前Id下所有的审核表单
+        var applicationFormIDs = new HashSet<int>();
+        var newTableSummaries = new List<TableSummary>();
+        foreach (var tableSummary in tableSummaries)
         {
-            return await tableSummaries.Select(table => CreateCommonData(table, _context)).ToListAsync();
+            if (applicationFormIDs.Add(tableSummary.ApplicationFormID))
+            {
+                newTableSummaries.Add(tableSummary);
+            }
+        }
+        if (newTableSummaries.Any())
+        {
+            return newTableSummaries.Select(table => CreateCommonData(table, _context)).ToList();
         }
         else
         {
