@@ -26,6 +26,7 @@ public class TableSummary
     /// </summary>
     public int Decision { get; set; }
     
+    //TODO:添加当前审核属于第几个状态
 
     // 导航属性
     // [JsonIgnore]
