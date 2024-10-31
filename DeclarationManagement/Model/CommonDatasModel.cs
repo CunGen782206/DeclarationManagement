@@ -46,6 +46,9 @@ public class CommonDatasModel
     public int Decision { get; set; }
 
     #region 新加字段
+    
+    /// <summary> 展示内容 </summary>
+    public int ShowDecision { get; set; }
 
     /// <summary>
     /// 奖项级别（可修改）
@@ -75,6 +78,7 @@ public class CommonDatasModel
         AwardLevel = applicationForm.AwardLevel;
         ParticipationForm = applicationForm.ParticipationForm;
         Decision = applicationForm.Decision;
+        ShowDecision = DecisionDefault(applicationForm);
     }
 
     /// <summary>
@@ -94,6 +98,7 @@ public class CommonDatasModel
         AwardLevel = applicationForm.AwardLevel;
         ParticipationForm = applicationForm.ParticipationForm;
         Decision = tableSummary.Decision; //当前操作
+        ShowDecision = DecisionDefault(applicationForm);
     }
 
     //TODO 修改当前状态 
@@ -102,13 +107,19 @@ public class CommonDatasModel
     #region 新加方法
 
     /// <summary> 设置默认 </summary>
-    public void DecisionDefault()
+    public int DecisionDefault(ApplicationForm applicationForm)
     {
-    }
-
-    /// <summary> 设置审核人员 </summary>
-    public void DecisionOther()
-    {
+        return (applicationForm.States, applicationForm.Decision) switch
+        {
+            (0, 0) => 0,
+            (1, 0) => 3,
+            (1, 2) => 1,
+            (1, 3) => 2,
+            (2, 1) => 5,
+            (2, 2) => 4,
+            (2, 3) => 6,
+            _ => 0,
+        };
     }
 
     #endregion
