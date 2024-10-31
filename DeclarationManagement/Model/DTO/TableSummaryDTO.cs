@@ -23,6 +23,6 @@ public class TableSummaryDTO
     /// </summary>
     public int Decision { get; set; }
     
-    //TODO:添加当前审核属于第几个状态
+
     
 }

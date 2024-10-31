@@ -25,8 +25,6 @@ public class TableSummary
     /// 审批表操作情况（0未审核，1拟同意，2拟不同意，3不同意）
     /// </summary>
     public int Decision { get; set; }
-    
-    //TODO:添加当前审核属于第几个状态
 
     // 导航属性
     // [JsonIgnore]
