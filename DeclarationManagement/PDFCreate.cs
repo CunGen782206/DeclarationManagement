@@ -483,51 +483,51 @@ public class PDFSet
             #region 各种顶点
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - twoH), fullLengthX * twoV,
-                fullLengthY * (1 - oneH), "1.1");
+                fullLengthY * (1 - oneH), "项目负责人");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - twoH), fullLengthX * threeV,
                 fullLengthY * (1 - oneH), "1.2");
             AddFormField1(document, writer, font, fullLengthX * threeV, fullLengthY * (1 - twoH), fullLengthX * fourV,
-                fullLengthY * (1 - oneH), "1.3");
+                fullLengthY * (1 - oneH), "所属部门");
             AddFormField1(document, writer, font, fullLengthX * fourV, fullLengthY * (1 - twoH), fullLengthX * fiveV,
                 fullLengthY * (1 - oneH), "1.4");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - threeH), fullLengthX * twoV,
-                fullLengthY * (1 - twoH), "2.1");
+                fullLengthY * (1 - twoH), "项目名称");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - threeH), fullLengthX * fiveV,
                 fullLengthY * (1 - twoH), "2.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - fourH), fullLengthX * twoV,
-                fullLengthY * (1 - threeH), "3.1");
+                fullLengthY * (1 - threeH), "项目类别");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - fourH), fullLengthX * fiveV,
                 fullLengthY * (1 - threeH), "3.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - fiveH), fullLengthX * twoV,
-                fullLengthY * (1 - fourH), "4.1");
+                fullLengthY * (1 - fourH), "项目等级");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - fiveH), fullLengthX * fiveV,
                 fullLengthY * (1 - fourH), "4.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - sixH), fullLengthX * twoV,
-                fullLengthY * (1 - fiveH), "5.1");
+                fullLengthY * (1 - fiveH), "奖项级别");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - sixH), fullLengthX * fiveV,
                 fullLengthY * (1 - fiveH), "5.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - sevenH), fullLengthX * twoV,
-                fullLengthY * (1 - sixH), "6.1");
+                fullLengthY * (1 - sixH), "参与形式");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - sevenH), fullLengthX * fiveV,
                 fullLengthY * (1 - sixH), "6.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - eightH), fullLengthX * twoV,
-                fullLengthY * (1 - sevenH), "7.1");
+                fullLengthY * (1 - sevenH), "认定批文");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - eightH), fullLengthX * fiveV,
                 fullLengthY * (1 - sevenH), "7.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - nineH), fullLengthX * twoV,
-                fullLengthY * (1 - eightH), "8.1");
+                fullLengthY * (1 - eightH), "项目内容");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - nineH), fullLengthX * fiveV,
                 fullLengthY * (1 - eightH), "8.2");
 
             AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - tenH), fullLengthX * twoV,
-                fullLengthY * (1 - nineH), "9.1");
+                fullLengthY * (1 - nineH), "项目成果");
             AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - tenH), fullLengthX * fiveV,
                 fullLengthY * (1 - nineH), "9.2");
 

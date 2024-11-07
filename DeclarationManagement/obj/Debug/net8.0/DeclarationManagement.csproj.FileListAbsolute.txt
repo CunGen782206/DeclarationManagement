@@ -184,3 +184,5 @@ E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8
 E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
 E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 E:\CProjects\Projects\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+E:\CSharp\DeclarationManagement\DeclarationManagement\bin\Debug\net8.0\itextsharp.dll
