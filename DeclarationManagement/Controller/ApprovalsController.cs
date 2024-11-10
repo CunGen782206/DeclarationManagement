@@ -203,6 +203,7 @@ public class ApprovalsController : ControllerBase
             await AmendApplicationFormDTO(approvalCombineModel, applicationForm, approvalUser);
         }
 
+        //TODO:生成PDF文件,并且生成压缩包文件
         await _context.SaveChangesAsync();
     }
 
@@ -244,7 +245,7 @@ public class ApprovalsController : ControllerBase
             // case nameof(ProjectCategory.教学竞赛类):
             // case nameof(ProjectCategory.教材建设类):
             default:
-                return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Power == nameof(Power.审核用户)));
+                return _context.Users.FirstOrDefault(f => (f.Role == "教务处") && (f.Username == "2070"));
         }
     }
 }

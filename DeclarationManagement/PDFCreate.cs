@@ -1,121 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using DeclarationManagement.Model;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace CreatePDF;
+namespace DeclarationManagement;
 
 public class PDFSet
 {
-     /// <summary>
-    /// 表单ID（自动生成）
-    /// </summary>
-    public int ApplicationFormID { get; set; }//这个如果不指定未主键，则需要ApplicationForm+ID（类名+ID名）
-
-    /// <summary>
-    /// 项目负责人（可修改）
-    /// </summary>
-    public string ProjectLeader { get; set; } = "";
-
-    /// <summary>
-    /// 联系方式（可修改）
-    /// </summary>
-    public string ContactWay { get; set; } = "";
-
-    /// <summary>
-    /// 所属部门（可修改）
-    /// </summary>
-    public string Department { get; set; } = "";
-
-    /// <summary>
-    /// 项目名称（可修改）
-    /// </summary>
-    public string ProjectName { get; set; } = "";
-
-    /// <summary>
-    /// 项目类别（可修改）
-    /// </summary>
-    public string ProjectCategory { get; set; } = "";
-
-    /// <summary>
-    /// 项目等级（可修改）
-    /// </summary>
-    public string ProjectLevel { get; set; } = "";
-
-    /// <summary>
-    /// 奖项级别（可修改）
-    /// </summary>
-    public string AwardLevel { get; set; } = "";
-
-    /// <summary>
-    /// 参与形式（可修改）
-    /// </summary>
-    public string ParticipationForm { get; set; } = "";
-
-    /// <summary>
-    /// 认定批文文件名称（可修改）
-    /// </summary>
-    public string ApprovalFileName { get; set; } = "";
-
-    /// <summary>
-    /// 认定批文文件号（可修改）
-    /// </summary>
-    public string ApprovalFileNumber { get; set; } = "";
-    
-    /// <summary>
-    /// 认定批文附件名称（可修改）
-    /// </summary>
-    public string ApprovalFileAttachmentName { get; set; } = "";
-
-    /// <summary>
-    /// 项目内容（可修改）
-    /// </summary>
-    public string ItemDescription { get; set; } = "";
-
-    /// <summary>
-    /// 项目成果（可修改）
-    /// </summary>
-    public string ProjectOutcome { get; set; } = "";
-
-    /// <summary>
-    /// 最终处理意见（可修改，（0未审核，1拟同意，2拟不同意，3不同意））
-    /// 默认值为0
-    /// </summary>
-    public int Decision { get; set; }
-
-    /// <summary>
-    /// 审核部门（最终输入）
-    /// </summary>
-    public string AuditDepartment { get; set; } = "";
-
-    /// <summary>
-    /// 原因（最终输入）
-    /// </summary>
-    public string Comments { get; set; } = "";
-
-    /// <summary>
-    /// 认定项目等级
-    /// </summary>
-    public string RecognitionProjectLevel { get; set; }
-    
-    /// <summary>
-    /// 认定奖项级别
-    /// </summary>
-    public string RecognitionAwardLevel { get; set; }
-    
-
-    /// <summary>
-    /// 认定金额（最终输入）
-    /// </summary>
-    public decimal DeemedAmount { get; set; }
-
-    /// <summary>
-    /// 备注（最终输入）
-    /// </summary>
-    public string Remarks { get; set; } = "";
-
-
     
     public void CreatePDFSet()
     {
@@ -132,7 +25,7 @@ public class PDFSet
 
         // FillPdf(@"E:\TestPDF\test.pdf", @"E:\TestPDF\TestPDF1.pdf");
         // CreateEditablePdf(@"E:\TestPDF\test.pdf");
-        DrawGridT(@"E:\TestPDF\TestPDF1.pdf");
+        // DrawGridT(@"E:\TestPDF\TestPDF1.pdf");
     }
 
 
@@ -140,7 +33,7 @@ public class PDFSet
     /// 画框
     /// </summary>
     /// <param name="outputPath"></param>
-    public void DrawGridT(string outputPath)
+    public void DrawGridT(string outputPath,ApplicationForm applicationForm)
     {
         // 创建 PDF 文档
         Document document = new Document(PageSize.A4);
@@ -212,61 +105,61 @@ public class PDFSet
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - twoH), fullLengthX * twoV,
             fullLengthY * (1 - oneH), "项目负责人");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - twoH), fullLengthX * threeV,
-            fullLengthY * (1 - oneH), ProjectLeader);
+            fullLengthY * (1 - oneH), applicationForm.ProjectLeader);
         AddFormField1(document, writer, font, fullLengthX * threeV, fullLengthY * (1 - twoH), fullLengthX * fourV,
             fullLengthY * (1 - oneH), "所属部门");
         AddFormField1(document, writer, font, fullLengthX * fourV, fullLengthY * (1 - twoH), fullLengthX * fiveV,
-            fullLengthY * (1 - oneH), Department);
+            fullLengthY * (1 - oneH), applicationForm.Department);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - threeH), fullLengthX * twoV,
             fullLengthY * (1 - twoH), "项目名称");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - threeH), fullLengthX * fiveV,
-            fullLengthY * (1 - twoH), ProjectName);
+            fullLengthY * (1 - twoH), applicationForm.ProjectName);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - fourH), fullLengthX * twoV,
             fullLengthY * (1 - threeH), "项目类别");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - fourH), fullLengthX * fiveV,
-            fullLengthY * (1 - threeH), ProjectCategory);
+            fullLengthY * (1 - threeH), applicationForm.ProjectCategory);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - fiveH), fullLengthX * twoV,
             fullLengthY * (1 - fourH), "项目等级");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - fiveH), fullLengthX * fiveV,
-            fullLengthY * (1 - fourH), ProjectLevel);
+            fullLengthY * (1 - fourH), applicationForm.ProjectLevel);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - sixH), fullLengthX * twoV,
             fullLengthY * (1 - fiveH), "奖项级别");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - sixH), fullLengthX * fiveV,
-            fullLengthY * (1 - fiveH), AwardLevel);
+            fullLengthY * (1 - fiveH), applicationForm.AwardLevel);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - sevenH), fullLengthX * twoV,
             fullLengthY * (1 - sixH), "参与形式");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - sevenH), fullLengthX * fiveV,
-            fullLengthY * (1 - sixH), ParticipationForm);
+            fullLengthY * (1 - sixH), applicationForm.ParticipationForm);
 
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - eightH), fullLengthX * twoV,
             fullLengthY * (1 - sevenH), "认定批文名称\r\n认定批文文件号");
         AddFormField1(document, writer, font, fullLengthX * twoV, fullLengthY * (1 - eightH), fullLengthX * fiveV,
-            fullLengthY * (1 - sevenH), ApprovalFileName, Element.ALIGN_LEFT);
+            fullLengthY * (1 - sevenH), applicationForm.ApprovalFileName, Element.ALIGN_LEFT);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - nineH), fullLengthX * twoV,
             fullLengthY * (1 - eightH), "认定批文\r\n盖章单位及时间");
         AddFormField1(document, writer, fontSmall, fullLengthX * twoV, fullLengthY * (1 - nineH), fullLengthX * fiveV,
-            fullLengthY * (1 - eightH), ApprovalFileNumber,
+            fullLengthY * (1 - eightH), applicationForm.ApprovalFileNumber,
             Element.ALIGN_LEFT);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - tenH), fullLengthX * twoV,
             fullLengthY * (1 - nineH), "项目内容");
         AddFormField1(document, writer, fontSmall, fullLengthX * twoV, fullLengthY * (1 - tenH), fullLengthX * fiveV,
             fullLengthY * (1 - nineH),
-            ItemDescription,
+            applicationForm.ItemDescription,
             Element.ALIGN_LEFT, Element.ALIGN_TOP);
 
         AddFormField1(document, writer, font, fullLengthX * oneV, fullLengthY * (1 - elevenH), fullLengthX * twoV,
             fullLengthY * (1 - tenH), "项目成果");
         AddFormField1(document, writer, fontSmall, fullLengthX * twoV, fullLengthY * (1 - elevenH), fullLengthX * fiveV,
             fullLengthY * (1 - tenH),
-            ProjectOutcome,
+            applicationForm.ProjectOutcome,
             Element.ALIGN_LEFT, Element.ALIGN_TOP);
 
         #endregion
