@@ -35,6 +35,16 @@ public class PDFSet
     /// <param name="outputPath"></param>
     public void DrawGridT(string outputPath,ApplicationForm applicationForm)
     {
+        try
+        {
+            // 注册代码页提供程序以支持更多编码
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Console.WriteLine($"PDF 已成功生成: ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("发生错误: " + ex.Message);
+        }
         // 创建 PDF 文档
         Document document = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(outputPath, FileMode.Create));
