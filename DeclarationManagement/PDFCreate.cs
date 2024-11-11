@@ -7,28 +7,9 @@ using iTextSharp.text.pdf;
 
 namespace DeclarationManagement;
 
-public class PDFSet
+public class PDFCreate
 {
     
-    public void CreatePDFSet()
-    {
-        try
-        {
-            // 注册代码页提供程序以支持更多编码
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Console.WriteLine($"PDF 已成功生成: ");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("发生错误: " + ex.Message);
-        }
-
-        // FillPdf(@"E:\TestPDF\test.pdf", @"E:\TestPDF\TestPDF1.pdf");
-        // CreateEditablePdf(@"E:\TestPDF\test.pdf");
-        // DrawGridT(@"E:\TestPDF\TestPDF1.pdf");
-    }
-
-
     /// <summary>
     /// 画框
     /// </summary>

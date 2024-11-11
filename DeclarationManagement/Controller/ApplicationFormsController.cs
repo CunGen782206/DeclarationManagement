@@ -81,7 +81,7 @@ public class ApplicationFormsController : ControllerBase
     {
         return await _context.Users.FirstOrDefaultAsync(f => (f.Role == department) && (f.Power == power));
     }
-    
+
     #endregion
 
     #region 修改表单 //TODO:要进行修改的部分
@@ -170,7 +170,8 @@ public class ApplicationFormsController : ControllerBase
         if (string.IsNullOrEmpty(fileName.FileName))
             return BadRequest("文件名不能为空");
 
-        var filePath = Path.Combine(FilesController._uploadFolder, fileName.FileName);
+        var filePath = Path.Combine(FilesController._uploadFolder, FilesController.ApprovalFileAttachmentDirectory,
+            fileName.FileName);
         if (!System.IO.File.Exists(filePath))
             return NotFound("文件未找到");
         System.IO.File.Delete(filePath); //删除文件

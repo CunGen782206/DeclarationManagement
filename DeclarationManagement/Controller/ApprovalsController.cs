@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using AutoMapper;
 using DeclarationManagement;
+using DeclarationManagement.Controller;
 using DeclarationManagement.Model;
 using DeclarationManagement.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -235,31 +236,32 @@ public class ApprovalsController : ControllerBase
     /// </summary>
     /// <param name="specifiedPdfPath"></param>
     /// <param name="parentFolder"> 新的目标文件夹 </param>
-    public static void Process(string pdfName, string directoryName, ApplicationForm applicationForm)
+    public static void Process(ApplicationForm applicationForm)
     {
         // Process("TestPDF1.pdf", "Combine");
-        var path = @"E:\test"; //初始文件夹
-        var pdfOnePath = @"E:\test\PDFFile\TagetFile.pdf"; //第一个pdf地址
-        var pathCombine = @"E:\test\Combine1"; //初始文件夹
-        var zipName = "集合名称";
-        var directoryPath = Path.Combine(path, directoryName); //新的文件夹地址
-        var pdfPath = Path.Combine(directoryPath, pdfName); //新的Pdf地址
+        var path = FilesController._uploadFolder; //初始文件夹
+        var pdfOnePath = Path.Combine(path, FilesController.ApprovalFileAttachmentDirectory,
+            applicationForm.ApprovalFileAttachmentName); //第一个pdf地址
+        var pathCombine = Path.Combine(path, FilesController.combineDirectory); //初始文件夹
+        var zipName = $"{applicationForm.Department}-{applicationForm.ProjectLeader}-{applicationForm.ProjectName}";
+        var directoryPath = Path.Combine(path, FilesController.cacheDirectory, zipName); //新的文件夹地址
+        var pdfPath = Path.Combine(directoryPath, $"{zipName}.pdf"); //新的Pdf地址
 
         // 创建新文件夹
-        if (!System.IO.Directory.Exists(directoryPath))
+        if (!Directory.Exists(directoryPath))
         {
-            System.IO.Directory.CreateDirectory(directoryPath);
+            Directory.CreateDirectory(directoryPath);
         }
 
         // 创建新文件夹
-        if (!System.IO.Directory.Exists(pathCombine))
+        if (!Directory.Exists(pathCombine))
         {
-            System.IO.Directory.CreateDirectory(pathCombine);
+            Directory.CreateDirectory(pathCombine);
         }
         // 从指定文件夹获取文件
 
         // 1. 生成指定的PDF文件
-        new PDFSet().DrawGridT(pdfPath, applicationForm);
+        new PDFCreate().DrawGridT(pdfPath, applicationForm);
         ;
 
         // 复制指定的PDF文件到目标文件夹
@@ -268,22 +270,12 @@ public class ApprovalsController : ControllerBase
 
         // 4. 将新文件夹压缩为压缩包
         var zipFilePath = Path.Combine(pathCombine, zipName) + ".zip";
-        ZipFolder(directoryPath, zipFilePath);
+        FilesController.ZipFolder(directoryPath, zipFilePath);
         System.IO.Directory.Delete(directoryPath, true);
         // File.Delete(generatedPdfPath);
     }
 
-    private static void ZipFolder(string folderPath, string zipFilePath)
-    {
-        // 如果压缩包已存在，删除它
-        if (System.IO.File.Exists(zipFilePath))
-        {
-            System.IO.File.Delete(zipFilePath);
-        }
 
-        // 创建压缩包
-        ZipFile.CreateFromDirectory(folderPath, zipFilePath);
-    }
 
     #endregion
 

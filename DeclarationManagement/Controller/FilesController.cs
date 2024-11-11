@@ -1,7 +1,9 @@
-﻿using DeclarationManagement.Model;
+﻿using System.IO.Compression;
+using DeclarationManagement.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 namespace DeclarationManagement.Controller;
 
@@ -11,6 +13,10 @@ namespace DeclarationManagement.Controller;
 public class FilesController : ControllerBase
 {
     public static string _uploadFolder;
+    public static string ApprovalFileAttachmentDirectory = "ApprovalFileAttachment";
+    public static string combineDirectory = "Combine";
+    public static string cacheDirectory = "Cache";
+    public static string endCombine = "EndCombine";
 
 
     /// <summary> 创建文件夹 </summary>
@@ -49,8 +55,13 @@ public class FilesController : ControllerBase
 
         // 可选：为文件名生成唯一标识，防止冲突
         var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
-
-        var filePath = Path.Combine(_uploadFolder, uniqueFileName);
+        var directory = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory);
+        // 创建新文件夹
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        var filePath = Path.Combine(directory, uniqueFileName);
 
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
@@ -71,7 +82,7 @@ public class FilesController : ControllerBase
         if (string.IsNullOrEmpty(filename))
             return BadRequest("文件名不能为空");
 
-        var filePath = Path.Combine(_uploadFolder, filename);
+        var filePath = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory, filename);
 
         if (!System.IO.File.Exists(filePath))
             return NotFound("文件未找到");
@@ -90,6 +101,94 @@ public class FilesController : ControllerBase
             return File(fileBytes, contentType, filename);
         }
     }
+    
+
+    [HttpGet("largeFile")]
+    public IActionResult DownloadLargeFile()
+    {
+        var filePath = CreateZip(); //生成大文件
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound();
+        }
+
+        var fileSize = new FileInfo(filePath).Length;
+        var rangeHeader = Request.Headers["Range"].ToString();
+
+        if (string.IsNullOrEmpty(rangeHeader))
+        {
+            // 未提供 Range 请求头，返回整个文件
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return File(stream, "application/zip", Path.GetFileName(filePath), enableRangeProcessing: true);
+        }
+        else
+        {
+            // 解析 Range 请求头
+            var range = RangeHeaderValue.Parse(rangeHeader);
+            var from = range.Ranges.First().From ?? 0;
+            var to = range.Ranges.First().To ?? (fileSize - 1);
+
+            if (from >= fileSize || to >= fileSize)
+            {
+                return StatusCode(416); // Range Not Satisfiable
+            }
+
+            var contentLength = to - from + 1;
+
+            // 设置响应头
+            Response.StatusCode = StatusCodes.Status206PartialContent;
+            Response.Headers["Content-Range"] = $"bytes {from}-{to}/{fileSize}";
+            Response.Headers["Accept-Ranges"] = "bytes";
+            Response.Headers["Content-Length"] = contentLength.ToString();
+
+            // 返回文件流
+            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            stream.Seek(from, SeekOrigin.Begin);
+
+            return new FileStreamResult(stream, "application/zip")
+            {
+                EnableRangeProcessing = true,
+                FileDownloadName =  Path.GetFileName(filePath)
+            };
+        }
+    }
+
+    /// <summary>
+    /// 创建归档Zip
+    /// </summary>
+    /// <param name="path"></param>
+    private static string CreateZip()
+    {
+        var pathCombine = Path.Combine(_uploadFolder, combineDirectory); //最大号生成
+        var zipName = DateTime.Now.ToString("yyyy-MM-dd-HH");
+        var zipDirectory = Path.Combine(_uploadFolder, endCombine);
+        // 创建新文件夹
+        if (!Directory.Exists(zipDirectory))
+        {
+            Directory.CreateDirectory(zipDirectory);
+        }
+
+        var zipPath = Path.Combine(zipDirectory, zipName) + ".zip";
+        ZipFolder(pathCombine, zipPath);
+        return zipPath;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="folderPath">压缩文件夹</param>
+    /// <param name="zipFilePath">压缩地址</param>
+    public static void ZipFolder(string folderPath, string zipFilePath)
+    {
+        // 如果压缩包已存在，删除它
+        if (System.IO.File.Exists(zipFilePath))
+        {
+            System.IO.File.Delete(zipFilePath);
+        }
+
+        // 创建压缩包
+        ZipFile.CreateFromDirectory(folderPath, zipFilePath);
+    }
 
     /// <summary>
     /// 根据文件扩展名获取 MIME 类型
@@ -103,7 +202,7 @@ public class FilesController : ControllerBase
         {
             contentType = "application/octet-stream";
         }
-        
+
         return contentType;
     }
 }
