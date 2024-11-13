@@ -229,56 +229,6 @@ public class ApprovalsController : ControllerBase
 
     #endregion
 
-    #region 生成新的文件夹
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="specifiedPdfPath"></param>
-    /// <param name="parentFolder"> 新的目标文件夹 </param>
-    public static void Process(ApplicationForm applicationForm)
-    {
-        // Process("TestPDF1.pdf", "Combine");
-        var path = FilesController._uploadFolder; //初始文件夹
-        var pdfOnePath = Path.Combine(path, FilesController.ApprovalFileAttachmentDirectory,
-            applicationForm.ApprovalFileAttachmentName); //第一个pdf地址
-        var pathCombine = Path.Combine(path, FilesController.combineDirectory); //初始文件夹
-        var zipName = $"{applicationForm.Department}-{applicationForm.ProjectLeader}-{applicationForm.ProjectName}";
-        var directoryPath = Path.Combine(path, FilesController.cacheDirectory, zipName); //新的文件夹地址
-        var pdfPath = Path.Combine(directoryPath, $"{zipName}.pdf"); //新的Pdf地址
-
-        // 创建新文件夹
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        // 创建新文件夹
-        if (!Directory.Exists(pathCombine))
-        {
-            Directory.CreateDirectory(pathCombine);
-        }
-        // 从指定文件夹获取文件
-
-        // 1. 生成指定的PDF文件
-        new PDFCreate().DrawGridT(pdfPath, applicationForm);
-        ;
-
-        // 复制指定的PDF文件到目标文件夹
-        string destSpecifiedPdf = Path.Combine(directoryPath, Path.GetFileName(pdfOnePath));
-        System.IO.File.Copy(pdfOnePath, destSpecifiedPdf, true);
-
-        // 4. 将新文件夹压缩为压缩包
-        var zipFilePath = Path.Combine(pathCombine, zipName) + ".zip";
-        FilesController.ZipFolder(directoryPath, zipFilePath);
-        System.IO.Directory.Delete(directoryPath, true);
-        // File.Delete(generatedPdfPath);
-    }
-
-
-
-    #endregion
-
     /// <summary>
     /// 查找下一个需要推送的表单
     /// </summary>

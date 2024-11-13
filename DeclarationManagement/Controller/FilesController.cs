@@ -7,7 +7,6 @@ using Microsoft.Net.Http.Headers;
 
 namespace DeclarationManagement.Controller;
 
-/// <summary> 文件控制 </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class FilesController : ControllerBase
@@ -17,7 +16,6 @@ public class FilesController : ControllerBase
     public static string combineDirectory = "Combine";
     public static string cacheDirectory = "Cache";
     public static string endCombine = "EndCombine";
-
 
     /// <summary> 创建文件夹 </summary>
     /// <param name="fileSettings"></param>
@@ -56,6 +54,7 @@ public class FilesController : ControllerBase
         // 可选：为文件名生成唯一标识，防止冲突
         var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
         var directory = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory);
+
         // 创建新文件夹
         if (!Directory.Exists(directory))
         {
@@ -77,7 +76,7 @@ public class FilesController : ControllerBase
     /// <param name="filename">文件名</param>
     /// <returns></returns>
     [HttpGet("download")]
-    public IActionResult Download([FromQuery] string filename)
+    public async Task<IActionResult> Download([FromQuery] string filename)
     {
         if (string.IsNullOrEmpty(filename))
             return BadRequest("文件名不能为空");
@@ -88,7 +87,7 @@ public class FilesController : ControllerBase
             return NotFound("文件未找到");
 
         var contentType = GetContentType(filePath);
-        var fileBytes = System.IO.File.ReadAllBytes(filePath);
+        var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
 
         // 如果是 PDF，设置为 inline 以在浏览器中直接查看
         if (contentType == "application/pdf")
@@ -101,12 +100,15 @@ public class FilesController : ControllerBase
             return File(fileBytes, contentType, filename);
         }
     }
-    
 
+    /// <summary>
+    /// 下载大文件（分段下载）
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("largeFile")]
-    public IActionResult DownloadLargeFile()
+    public async Task<IActionResult> DownloadLargeFile()
     {
-        var filePath = CreateZip(); //生成大文件
+        var filePath = await CreateZipAsync(); // 异步生成大文件
         if (!System.IO.File.Exists(filePath))
         {
             return NotFound();
@@ -148,20 +150,21 @@ public class FilesController : ControllerBase
             return new FileStreamResult(stream, "application/zip")
             {
                 EnableRangeProcessing = true,
-                FileDownloadName =  Path.GetFileName(filePath)
+                FileDownloadName = Path.GetFileName(filePath)
             };
         }
     }
 
     /// <summary>
-    /// 创建归档Zip
+    /// 创建归档Zip（异步）
     /// </summary>
-    /// <param name="path"></param>
-    private static string CreateZip()
+    /// <returns></returns>
+    private async Task<string> CreateZipAsync()
     {
         var pathCombine = Path.Combine(_uploadFolder, combineDirectory); //最大号生成
         var zipName = DateTime.Now.ToString("yyyy-MM-dd-HH");
         var zipDirectory = Path.Combine(_uploadFolder, endCombine);
+
         // 创建新文件夹
         if (!Directory.Exists(zipDirectory))
         {
@@ -169,16 +172,16 @@ public class FilesController : ControllerBase
         }
 
         var zipPath = Path.Combine(zipDirectory, zipName) + ".zip";
-        ZipFolder(pathCombine, zipPath);
+        await ZipFolderAsync(pathCombine, zipPath); // 异步压缩文件夹
         return zipPath;
     }
 
     /// <summary>
-    /// 
+    /// 异步压缩文件夹
     /// </summary>
-    /// <param name="folderPath">压缩文件夹</param>
-    /// <param name="zipFilePath">压缩地址</param>
-    public static void ZipFolder(string folderPath, string zipFilePath)
+    /// <param name="folderPath">压缩文件夹路径</param>
+    /// <param name="zipFilePath">压缩文件的路径</param>
+    public static async Task ZipFolderAsync(string folderPath, string zipFilePath)
     {
         // 如果压缩包已存在，删除它
         if (System.IO.File.Exists(zipFilePath))
@@ -186,8 +189,8 @@ public class FilesController : ControllerBase
             System.IO.File.Delete(zipFilePath);
         }
 
-        // 创建压缩包
-        ZipFile.CreateFromDirectory(folderPath, zipFilePath);
+        // 异步压缩文件夹
+        await Task.Run(() => ZipFile.CreateFromDirectory(folderPath, zipFilePath));
     }
 
     /// <summary>
