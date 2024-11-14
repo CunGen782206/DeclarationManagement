@@ -100,7 +100,41 @@ public class FilesController : ControllerBase
             return File(fileBytes, contentType, filename);
         }
     }
+    
+    [HttpGet("view")]
+    public async Task<IActionResult> View([FromQuery] string filename)
+    {
+        if (string.IsNullOrEmpty(filename))
+            return BadRequest("文件名不能为空");
 
+        // 防止路径遍历攻击
+        if (filename.Contains(".."))
+            return BadRequest("无效的文件名");
+
+        var filePath = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory, filename);
+
+        if (!System.IO.File.Exists(filePath))
+            return NotFound("文件未找到");
+
+        var contentType = GetContentType(filePath);
+
+        // 打开文件流，不使用 using，让框架处理其生命周期
+        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+
+        // 设置 Content-Disposition 为 inline，以在浏览器中直接查看
+        var contentDisposition = new ContentDispositionHeaderValue("inline")
+        {
+            FileNameStar = Uri.EscapeDataString(filename),
+            FileName = Uri.EscapeDataString(filename)
+        };
+        Response.Headers[HeaderNames.ContentDisposition] = contentDisposition.ToString();
+
+        // 设置 enableRangeProcessing 为 true，以支持断点续传
+        return File(fileStream, contentType, enableRangeProcessing: true);
+    }
+
+    
+    
     /// <summary>
     /// 下载大文件（分段下载）
     /// </summary>

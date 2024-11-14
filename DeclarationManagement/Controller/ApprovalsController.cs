@@ -91,6 +91,7 @@ public class ApprovalsController : ControllerBase
         if (approvalCombineModel.Decision == 2)
         {
             applicationForm.Decision = 2; //打回给原客户
+            applicationForm.States = 1;
         }
         else if (approvalCombineModel.Decision == 3)
         {
