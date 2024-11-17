@@ -100,7 +100,8 @@ public class FilesController : ControllerBase
             return File(fileBytes, contentType, filename);
         }
     }
-    
+
+
     [HttpGet("view")]
     public async Task<IActionResult> View([FromQuery] string filename)
     {
@@ -133,8 +134,7 @@ public class FilesController : ControllerBase
         return File(fileStream, contentType, enableRangeProcessing: true);
     }
 
-    
-    
+
     /// <summary>
     /// 下载大文件（分段下载）
     /// </summary>
