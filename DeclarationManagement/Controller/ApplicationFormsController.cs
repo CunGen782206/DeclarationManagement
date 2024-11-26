@@ -88,7 +88,7 @@ public class ApplicationFormsController : ControllerBase
 
     // POST: api/ApplicationForms/alterForm
     [HttpPut("/alterForm")] //修改表单
-    public async Task<ActionResult> AlterForm([FromBody] ApplicationFormDTO modelDTO)
+    public async Task<ActionResult> AlterForm([FromBody] ApplicationFormAlterDTO modelDTO)
     {
         if (modelDTO == null)
         {
@@ -105,7 +105,6 @@ public class ApplicationFormsController : ControllerBase
         }
 
         _mapper.Map(modelDTO, applicationForm); //将表单进行数据替换
-
         //TODO:清空其他审核过程中的数据
         applicationForm.States = 0;
         applicationForm.Decision = 0;

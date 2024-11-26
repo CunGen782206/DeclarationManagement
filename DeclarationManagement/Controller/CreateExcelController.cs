@@ -99,7 +99,7 @@ public class CreateExcelController : ControllerBase
             stream.Position = 0;
 
             // 返回文件流
-            string excelName = $"Products-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            string excelName = $"Products-{DateTime.Now.ToString("yyyy-MM-dd-HH")}.xlsx";
 
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
