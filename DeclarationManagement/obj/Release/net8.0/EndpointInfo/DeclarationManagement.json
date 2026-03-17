@@ -1,0 +1,1014 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "File Upload API",
+    "version": "v1"
+  },
+  "paths": {
+    "/addForm": {
+      "post": {
+        "tags": [
+          "ApplicationForms"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/alterForm": {
+      "put": {
+        "tags": [
+          "ApplicationForms"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormAlterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormAlterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationFormAlterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/getForm": {
+      "post": {
+        "tags": [
+          "ApplicationForms"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFormsModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFormsModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFormsModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/cancelForm": {
+      "post": {
+        "tags": [
+          "ApplicationForms"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelForm"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelForm"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/approvalForm": {
+      "post": {
+        "tags": [
+          "Approvals"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalCombineModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalCombineModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalCombineModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Config/GetIsApplicationPeriod": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Config/SetApplicationPeriod": {
+      "post": {
+        "tags": [
+          "Config"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Config/GetApplicationPeriod": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CreateExcel/export": {
+      "get": {
+        "tags": [
+          "CreateExcel"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Files/upload": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Files/download": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Files/view": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Files/largeFile": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Public/login": {
+      "post": {
+        "tags": [
+          "Public"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Public/changePassword": {
+      "post": {
+        "tags": [
+          "Public"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/getUserStates/approval": {
+      "post": {
+        "tags": [
+          "Public"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/getUserStates/default": {
+      "post": {
+        "tags": [
+          "Public"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/getUserStates/allForm": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/getUsers": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/userManage": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/userManageConfirm": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/ResetPassword": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/deleteUser": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserManageDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApplicationFormAlterDTO": {
+        "type": "object",
+        "properties": {
+          "applicationFormID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectLeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactWay": {
+            "type": "string",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectName": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "awardLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "participationForm": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileAttachmentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectOutcome": {
+            "type": "string",
+            "nullable": true
+          },
+          "decision": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auditDepartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionProjectLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionAwardLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "deemedAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "states": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationFormDTO": {
+        "type": "object",
+        "properties": {
+          "applicationFormID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectLeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactWay": {
+            "type": "string",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectName": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "awardLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "participationForm": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalFileAttachmentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectOutcome": {
+            "type": "string",
+            "nullable": true
+          },
+          "decision": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auditDepartment": {
+            "type": "string",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionProjectLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionAwardLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "deemedAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "states": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvalRecords": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApprovalRecordDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApprovalCombineModel": {
+        "type": "object",
+        "properties": {
+          "applicationFormID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableSummaryID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "decision": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionProjectLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "recognitionAwardLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "deemedAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApprovalRecordDTO": {
+        "type": "object",
+        "properties": {
+          "approvalRecordID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationFormID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decision": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CancelForm": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfigDTO": {
+        "type": "object",
+        "properties": {
+          "configID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "applicationEndDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetFormsModel": {
+        "type": "object",
+        "properties": {
+          "getCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formID": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginViewModel": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "power": {
+            "type": "string",
+            "nullable": true
+          },
+          "jobNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserManageDTO": {
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "power": {
+            "type": "string",
+            "nullable": true
+          },
+          "jobNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "multipart/form-data": {
+        "type": "apiKey",
+        "description": "Content-Type header",
+        "name": "Content-Type",
+        "in": "header"
+      }
+    }
+  }
+}

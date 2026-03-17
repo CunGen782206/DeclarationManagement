@@ -1,0 +1,365 @@
+[
+  {
+    "ContainingType": "ApplicationFormsController",
+    "Method": "CreateForm",
+    "RelativePath": "addForm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modelDTO",
+        "Type": "DeclarationManagement.Model.DTO.ApplicationFormDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApplicationFormsController",
+    "Method": "AlterForm",
+    "RelativePath": "alterForm",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modelDTO",
+        "Type": "DeclarationManagement.Model.DTO.ApplicationFormAlterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.ConfigController",
+    "Method": "GetApplicationPeriod",
+    "RelativePath": "api/Config/GetApplicationPeriod",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.ConfigController",
+    "Method": "GetIsApplicationPeriod",
+    "RelativePath": "api/Config/GetIsApplicationPeriod",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.ConfigController",
+    "Method": "SetApplicationPeriod",
+    "RelativePath": "api/Config/SetApplicationPeriod",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "configDto",
+        "Type": "DeclarationManagement.Model.DTO.ConfigDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.CreateExcelController",
+    "Method": "Export",
+    "RelativePath": "api/CreateExcel/export",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.FilesController",
+    "Method": "Download",
+    "RelativePath": "api/Files/download",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filename",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.FilesController",
+    "Method": "DownloadLargeFile",
+    "RelativePath": "api/Files/largeFile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.FilesController",
+    "Method": "Upload",
+    "RelativePath": "api/Files/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.FilesController",
+    "Method": "View",
+    "RelativePath": "api/Files/view",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filename",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.PublicController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Public/changePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DeclarationManagement.Controller.LoginViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.PublicController",
+    "Method": "Login",
+    "RelativePath": "api/Public/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DeclarationManagement.Controller.LoginViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controllers.UsersController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/Users/deleteUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "DeclarationManagement.Model.DTO.UserManageDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controllers.UsersController",
+    "Method": "GetUsers",
+    "RelativePath": "api/Users/getUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controllers.UsersController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Users/ResetPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "DeclarationManagement.Model.DTO.UserManageDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controllers.UsersController",
+    "Method": "UserManage",
+    "RelativePath": "api/Users/userManage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "DeclarationManagement.Model.DTO.UserManageDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controllers.UsersController",
+    "Method": "UserManageConfirm",
+    "RelativePath": "api/Users/userManageConfirm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "DeclarationManagement.Model.DTO.UserManageDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApprovalsController",
+    "Method": "ApprovalForm",
+    "RelativePath": "approvalForm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "approvalCombineModel",
+        "Type": "DeclarationManagement.Model.DTO.ApprovalCombineModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApplicationFormsController",
+    "Method": "CancelForms",
+    "RelativePath": "cancelForm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fileName",
+        "Type": "CancelForm",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApplicationFormsController",
+    "Method": "GetForms",
+    "RelativePath": "getForm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "getFormsModel",
+        "Type": "GetFormsModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.PublicController",
+    "Method": "GetAllForm",
+    "RelativePath": "getUserStates/allForm",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.PublicController",
+    "Method": "GetStatesApproval",
+    "RelativePath": "getUserStates/approval",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "DeclarationManagement.Model.DTO.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DeclarationManagement.Controller.PublicController",
+    "Method": "GetStatesDe",
+    "RelativePath": "getUserStates/default",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "DeclarationManagement.Model.DTO.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

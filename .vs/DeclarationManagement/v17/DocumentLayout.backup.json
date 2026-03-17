@@ -1,0 +1,328 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\DeclarationManagement\\DeclarationManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\approvalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\approvalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\applicationformscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\applicationformscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\configcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\configcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\controller\\createexcelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\controller\\createexcelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\model\\dto\\applicationformalterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\model\\dto\\applicationformalterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\model\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\model\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\automapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\automapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\model\\dto\\configdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\model\\dto\\configdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\model\\dto\\applicationformdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\model\\dto\\applicationformdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\sqltest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\sqltest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|c:\\declarationmanagement\\declarationmanagement\\declarationmanagement\\declarationmanagement.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{24377DBC-51E0-4A9F-AEE5-32AECE94874D}|DeclarationManagement\\DeclarationManagement.csproj|solutionrelative:declarationmanagement\\declarationmanagement.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApprovalsController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ApprovalsController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\ApprovalsController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ApprovalsController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\ApprovalsController.cs",
+              "ViewState": "AgIAAAwBAAAAAAAAAAAmwB8BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T16:54:06.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Properties\\launchSettings.json",
+              "RelativeToolTip": "DeclarationManagement\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAACYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-25T12:11:36.242Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "DeclarationManagement\\appsettings.Development.json",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\appsettings.Development.json",
+              "RelativeToolTip": "DeclarationManagement\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-08T12:47:57.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\UsersController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\UsersController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\UsersController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\UsersController.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAQwLwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T12:12:56.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FolderProfile.pubxml",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "RelativeToolTip": "DeclarationManagement\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2025-03-25T12:11:42.558Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FilesController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\FilesController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\FilesController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\FilesController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\FilesController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACMAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-18T16:14:49.006Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationFormAlterDTO.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ApplicationFormAlterDTO.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Model\\DTO\\ApplicationFormAlterDTO.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ApplicationFormAlterDTO.cs",
+              "RelativeToolTip": "DeclarationManagement\\Model\\DTO\\ApplicationFormAlterDTO.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAADwv2cAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T08:31:40.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CreateExcelController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\CreateExcelController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\CreateExcelController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\CreateExcelController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\CreateExcelController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T05:12:52.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ConfigController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ConfigController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\ConfigController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ConfigController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\ConfigController.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAqwDsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T12:25:17.018Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationFormsController.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ApplicationFormsController.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Controller\\ApplicationFormsController.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Controller\\ApplicationFormsController.cs",
+              "RelativeToolTip": "DeclarationManagement\\Controller\\ApplicationFormsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T07:26:40.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Program.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Program.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Program.cs",
+              "RelativeToolTip": "DeclarationManagement\\Program.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAswG4AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-15T11:26:00.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\ApplicationDbContext.cs",
+              "RelativeToolTip": "DeclarationManagement\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwwAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T12:25:40.864Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\appsettings.json",
+              "RelativeDocumentMoniker": "DeclarationManagement\\appsettings.json",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\appsettings.json",
+              "RelativeToolTip": "DeclarationManagement\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-25T12:11:32.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Config.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\Config.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Model\\Config.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\Config.cs",
+              "RelativeToolTip": "DeclarationManagement\\Model\\Config.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T12:24:12.702Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DeclarationManagement.http",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement.http",
+              "RelativeDocumentMoniker": "DeclarationManagement\\DeclarationManagement.http",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement.http",
+              "RelativeToolTip": "DeclarationManagement\\DeclarationManagement.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-03-25T12:16:07.618Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AutoMapperProfile.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\AutoMapperProfile.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\AutoMapperProfile.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\AutoMapperProfile.cs",
+              "RelativeToolTip": "DeclarationManagement\\AutoMapperProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T11:39:48.1Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ConfigDTO.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ConfigDTO.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Model\\DTO\\ConfigDTO.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ConfigDTO.cs",
+              "RelativeToolTip": "DeclarationManagement\\Model\\DTO\\ConfigDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T12:24:45.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "SqlTest.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\SqlTest.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\SqlTest.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\SqlTest.cs",
+              "RelativeToolTip": "DeclarationManagement\\SqlTest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T12:19:38.491Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApplicationFormDTO.cs",
+              "DocumentMoniker": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ApplicationFormDTO.cs",
+              "RelativeDocumentMoniker": "DeclarationManagement\\Model\\DTO\\ApplicationFormDTO.cs",
+              "ToolTip": "C:\\DeclarationManagement\\DeclarationManagement\\DeclarationManagement\\Model\\DTO\\ApplicationFormDTO.cs",
+              "RelativeToolTip": "DeclarationManagement\\Model\\DTO\\ApplicationFormDTO.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAkwA4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T07:56:10.789Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
