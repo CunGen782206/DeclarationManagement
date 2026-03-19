@@ -261,11 +261,11 @@ public class ApprovalsController : ControllerBase
     {
         // Process("TestPDF1.pdf", "Combine");
         var path = FilesController._uploadFolder; //初始文件夹
-        var pdfOnePath = Path.Combine(path, FilesController.ApprovalFileAttachmentDirectory,
+        var pdfOnePath = Path.Combine(path,DateTime.Now.Year.ToString(), FilesController.ApprovalFileAttachmentDirectory,
             applicationForm.ApprovalFileAttachmentName); //第一个pdf地址
-        var pathCombine = Path.Combine(path, FilesController.combineDirectory); //初始文件夹
+        var pathCombine = Path.Combine(path,DateTime.Now.Year.ToString(),FilesController.combineDirectory); //初始文件夹
         var zipName = $"{applicationForm.Department}-{applicationForm.ProjectLeader}-{applicationForm.ProjectName}";
-        var directoryPath = Path.Combine(path, FilesController.cacheDirectory, zipName); //新的文件夹地址
+        var directoryPath = Path.Combine(path,DateTime.Now.Year.ToString(),FilesController.cacheDirectory, zipName); //新的文件夹地址
         var pdfPath = Path.Combine(directoryPath, $"{zipName}.pdf"); //新的Pdf地址
         // 创建新文件夹
         if (!Directory.Exists(directoryPath))

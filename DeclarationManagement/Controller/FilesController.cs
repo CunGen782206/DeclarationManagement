@@ -35,6 +35,12 @@ public class FilesController : ControllerBase
         {
             Directory.CreateDirectory(_uploadFolder);
         }
+        
+        var path = Path.Combine(_uploadFolder,DateTime.Now.Year.ToString());
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 
     /// <summary>

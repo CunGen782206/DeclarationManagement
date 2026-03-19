@@ -170,7 +170,7 @@ public class ApplicationFormsController : ControllerBase
         if (string.IsNullOrEmpty(fileName.FileName))
             return BadRequest("文件名不能为空");
 
-        var filePath = Path.Combine(FilesController._uploadFolder, FilesController.ApprovalFileAttachmentDirectory,
+        var filePath = Path.Combine(FilesController._uploadFolder,DateTime.Now.Year.ToString(), FilesController.ApprovalFileAttachmentDirectory,
             fileName.FileName);
         if (!System.IO.File.Exists(filePath))
             return NotFound("文件未找到");
