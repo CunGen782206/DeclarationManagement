@@ -20,11 +20,15 @@ public class CreateExcelController : ControllerBase
     }
 
     [HttpGet("export")]
-    public async Task<IActionResult> Export()
+    public async Task<IActionResult> Export([FromQuery] int yearDate)
     {
+        var start = new DateTime(yearDate, 1, 1);
+        var end = start.AddYears(1);
         // 获取数据
         var applicationForms = await _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 3)
-            .ToListAsync();
+            .Where(form =>
+                form.ApprovalDate >= start &&
+                form.ApprovalDate < end).ToListAsync();
 
         if (applicationForms == null) applicationForms = new();
 
@@ -81,6 +85,7 @@ public class CreateExcelController : ControllerBase
                         decision = "";
                         break;
                 }
+
                 worksheet.Cells[row, 13].Value = decision;
                 worksheet.Cells[row, 14].Value = applicationForm.Comments;
                 worksheet.Cells[row, 15].Value = applicationForm.RecognitionProjectLevel;
@@ -99,7 +104,7 @@ public class CreateExcelController : ControllerBase
             stream.Position = 0;
 
             // 返回文件流
-            string excelName = $"{DateTime.Now.ToString("yyyy")}年度教学质量工程项目初审结果汇总表.xlsx";
+            string excelName = $"{yearDate}年度教学质量工程项目初审结果汇总表.xlsx";
 
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }

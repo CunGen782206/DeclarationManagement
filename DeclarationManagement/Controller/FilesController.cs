@@ -53,13 +53,14 @@ public class FilesController : ControllerBase
 
         // 可选：为文件名生成唯一标识，防止冲突
         var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
-        var directory = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory);
+        var directory = Path.Combine(_uploadFolder, DateTime.Now.Year.ToString(), ApprovalFileAttachmentDirectory);
 
         // 创建新文件夹
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
+
         var filePath = Path.Combine(directory, uniqueFileName);
 
         using (var stream = new FileStream(filePath, FileMode.Create))
@@ -76,12 +77,12 @@ public class FilesController : ControllerBase
     /// <param name="filename">文件名</param>
     /// <returns></returns>
     [HttpGet("download")]
-    public async Task<IActionResult> Download([FromQuery] string filename)
+    public async Task<IActionResult> Download([FromQuery] int yearDate, [FromQuery] string filename)
     {
         if (string.IsNullOrEmpty(filename))
             return BadRequest("文件名不能为空");
 
-        var filePath = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory, filename);
+        var filePath = Path.Combine(_uploadFolder, yearDate.ToString(), ApprovalFileAttachmentDirectory, filename);
 
         if (!System.IO.File.Exists(filePath))
             return NotFound("文件未找到");
@@ -103,7 +104,7 @@ public class FilesController : ControllerBase
 
 
     [HttpGet("view")]
-    public async Task<IActionResult> View([FromQuery] string filename)
+    public async Task<IActionResult> View([FromQuery] int yearDate, [FromQuery] string filename)
     {
         if (string.IsNullOrEmpty(filename))
             return BadRequest("文件名不能为空");
@@ -112,7 +113,7 @@ public class FilesController : ControllerBase
         if (filename.Contains(".."))
             return BadRequest("无效的文件名");
 
-        var filePath = Path.Combine(_uploadFolder, ApprovalFileAttachmentDirectory, filename);
+        var filePath = Path.Combine(_uploadFolder, yearDate.ToString(), ApprovalFileAttachmentDirectory, filename);
 
         if (!System.IO.File.Exists(filePath))
             return NotFound("文件未找到");
@@ -120,7 +121,8 @@ public class FilesController : ControllerBase
         var contentType = GetContentType(filePath);
 
         // 打开文件流，不使用 using，让框架处理其生命周期
-        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096,
+            useAsync: true);
 
         // 设置 Content-Disposition 为 inline，以在浏览器中直接查看
         var contentDisposition = new ContentDispositionHeaderValue("inline")
@@ -140,9 +142,9 @@ public class FilesController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("largeFile")]
-    public async Task<IActionResult> DownloadLargeFile()
+    public async Task<IActionResult> DownloadLargeFile([FromQuery] int yearDate)
     {
-        var filePath = await CreateZipAsync(); // 异步生成大文件
+        var filePath = await CreateZipAsync(yearDate); // 异步生成大文件
         if (!System.IO.File.Exists(filePath))
         {
             return NotFound();
@@ -193,11 +195,11 @@ public class FilesController : ControllerBase
     /// 创建归档Zip（异步）
     /// </summary>
     /// <returns></returns>
-    private async Task<string> CreateZipAsync()
+    private async Task<string> CreateZipAsync(int yearDate)
     {
-        var pathCombine = Path.Combine(_uploadFolder, combineDirectory); //最大号生成
+        var pathCombine = Path.Combine(_uploadFolder, yearDate.ToString(), combineDirectory); //最大号生成
         var zipName = DateTime.Now.ToString("yyyy-MM-dd-HH");
-        var zipDirectory = Path.Combine(_uploadFolder, endCombine);
+        var zipDirectory = Path.Combine(_uploadFolder, yearDate.ToString(), endCombine);
 
         // 创建新文件夹
         if (!Directory.Exists(zipDirectory))

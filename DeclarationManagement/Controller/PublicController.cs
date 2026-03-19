@@ -68,7 +68,7 @@ public class PublicController : ControllerBase
     /// <param name="UserID"></param>
     /// <returns></returns>
     [HttpPost("/getUserStates/approval")] //查看审核表单
-    public async Task<ActionResult> GetStatesApproval([FromBody] UserDTO user)
+    public async Task<ActionResult> GetStatesApproval([FromQuery] int yearDate,[FromBody] UserDTO user)
     {
         var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
         if (!userExists)
@@ -78,6 +78,15 @@ public class PublicController : ControllerBase
 
         List<CommonDatasModel> listDate = await GetApprovalDatas(user.UserID);
         if (listDate == null) listDate = new();
+        if (yearDate != 0)
+        {
+            var start = new DateTime(yearDate, 1, 1);
+            var end = start.AddYears(1);
+            var siftListDate = listDate.Where(form =>
+                form.ApprovalDate >= start &&
+                form.ApprovalDate < end);
+            return Ok(siftListDate);
+        }
         return Ok(listDate);
     }
 
@@ -87,32 +96,45 @@ public class PublicController : ControllerBase
     /// <param name="UserID"></param>
     /// <returns> </returns>
     [HttpPost("/getUserStates/default")] //查看普通表单
-    public async Task<ActionResult> GetStatesDe([FromBody] UserDTO user)
+    public async Task<ActionResult> GetStatesDe([FromQuery] int yearDate, [FromBody] UserDTO user)
     {
-        var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
+        // 1. 校验用户
+        var userExists = await _context.Users
+            .AnyAsync(u => u.UserID == user.UserID);
+
         if (!userExists)
         {
             return NotFound("用户不存在");
         }
 
-        List<CommonDatasModel> listDate = await GetCommonDatas(user.UserID);
-        if (listDate == null) listDate = new();
+        // 2. 获取数据（直接带年份过滤）
+        var listDate = await GetCommonDatas(user.UserID, yearDate);
+
         return Ok(listDate);
     }
-
+    
     /// <summary> 普通用户的返回数据 </summary>
     /// <returns></returns>
-    private async Task<List<CommonDatasModel>> GetCommonDatas(int userID)
+    private async Task<List<CommonDatasModel>> GetCommonDatas(int userID, int yearDate)
     {
-        var applicationForms = _context.ApplicationForms.Where(form => form.UserID == userID);
-        if (await applicationForms.AnyAsync()) //判断是有元素
+        var query = _context.ApplicationForms
+            .Where(form => form.UserID == userID);
+
+        // 年份过滤（推荐：范围查询）
+        if (yearDate != 0)
         {
-            return await applicationForms.Select(form => new CommonDatasModel(form)).ToListAsync();
+            var start = new DateTime(yearDate, 1, 1);
+            var end = start.AddYears(1);
+
+            query = query.Where(form =>
+                form.ApprovalDate >= start &&
+                form.ApprovalDate < end);
         }
-        else
-        {
-            return null;
-        }
+
+        // 一次性查询 + 映射
+        return await query
+            .Select(form => new CommonDatasModel(form))
+            .ToListAsync();
     }
 
 
@@ -163,26 +185,34 @@ public class PublicController : ControllerBase
     /// <param name="UserID"></param>
     /// <returns></returns>
     [HttpGet("/getUserStates/allForm")]
-    public async Task<ActionResult> GetAllForm()
+    public async Task<ActionResult> GetAllForm([FromQuery] int yearDate)
     {
-        List<CommonDatasModel> listDate = await GetAllFormDatas();
-        if (listDate == null) listDate = new();
+        var listDate = await GetAllFormDatas(yearDate);
         return Ok(listDate);
     }
 
     /// <summary> 普通用户的返回数据 </summary>
     /// <returns></returns>
-    private async Task<List<CommonDatasModel>> GetAllFormDatas()
+    private async Task<List<CommonDatasModel>> GetAllFormDatas(int yearDate)
     {
-        var applicationForms = _context.ApplicationForms.Where(form => form.Decision == 1 || form.Decision == 3);
-        if (await applicationForms.AnyAsync()) //判断是有元素
+        var query = _context.ApplicationForms
+            .AsNoTracking() // ⭐ 关键优化
+            .Where(form => form.Decision == 1 || form.Decision == 3);
+
+        // 年份过滤（数据库层）
+        if (yearDate != 0)
         {
-            return await applicationForms.Select(form => new CommonDatasModel(form)).ToListAsync();
+            var start = new DateTime(yearDate, 1, 1);
+            var end = start.AddYears(1);
+
+            query = query.Where(form =>
+                form.ApprovalDate >= start &&
+                form.ApprovalDate < end);
         }
-        else
-        {
-            return null;
-        }
+
+        return await query
+            .Select(form => new CommonDatasModel(form))
+            .ToListAsync();
     }
 
     #endregion
