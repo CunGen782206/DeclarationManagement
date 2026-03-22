@@ -67,26 +67,22 @@ public class PublicController : ControllerBase
     /// </summary>
     /// <param name="UserID"></param>
     /// <returns></returns>
-    [HttpPost("/getUserStates/approval")] //查看审核表单
-    public async Task<ActionResult> GetStatesApproval([FromQuery] int yearDate,[FromBody] UserDTO user)
+    [HttpPost("/getUserStates/approval")]
+    public async Task<ActionResult> GetStatesApproval(
+        [FromQuery] int yearDate,
+        [FromBody] UserDTO user)
     {
-        var userExists = await _context.Users.AnyAsync(u => u.UserID == user.UserID);
+        var userExists = await _context.Users
+            .AsNoTracking()
+            .AnyAsync(u => u.UserID == user.UserID);
+
         if (!userExists)
         {
             return NotFound("用户不存在");
         }
 
-        List<CommonDatasModel> listDate = await GetApprovalDatas(user.UserID);
-        if (listDate == null) listDate = new();
-        if (yearDate != 0)
-        {
-            var start = new DateTime(yearDate, 1, 1);
-            var end = start.AddYears(1);
-            var siftListDate = listDate.Where(form =>
-                form.ApprovalDate >= start &&
-                form.ApprovalDate < end);
-            return Ok(siftListDate);
-        }
+        var listDate = await GetApprovalDatas(user.UserID,yearDate) ?? new List<CommonDatasModel>();
+
         return Ok(listDate);
     }
 
@@ -140,39 +136,47 @@ public class PublicController : ControllerBase
 
     /// <summary> 审核用户的返回数据 </summary>
     /// <returns></returns>
-    private async Task<List<CommonDatasModel>> GetApprovalDatas(int userID)
+    private async Task<List<CommonDatasModel>> GetApprovalDatas(int userID,int yearDate)
     {
-        var tableSummaries = _context.TableSummaries.Where(summaries => summaries.UserID == userID)
-            .OrderByDescending(summaries => summaries.TableSummaryID); //查找当前Id下所有的审核表单
-        var applicationFormIDs = new HashSet<int>();
-        var newTableSummaries = new List<TableSummary>();
-        foreach (var tableSummary in tableSummaries)
-        {
-            if (applicationFormIDs.Add(tableSummary.ApplicationFormID))
-            {
-                newTableSummaries.Add(tableSummary);
-            }
-        }
-        if (newTableSummaries.Any())
-        {
-            return newTableSummaries.Select(table => CreateCommonData(table, _context)).ToList();
-        }
-        else
-        {
-            return null;
-        }
-    }
+        // 1️⃣ 先按 ApplicationFormID 分组，只取最新的一条
+        var latestSummaries = await _context.TableSummaries
+            .Where(s => s.UserID == userID)
+            .GroupBy(s => s.ApplicationFormID)
+            .Select(g => g.OrderByDescending(x => x.TableSummaryID).First())
+            .AsNoTracking()
+            .ToListAsync();
 
-    /// <summary>
-    /// 创建审核表单的信息
-    /// </summary>
-    /// <param name="tableSummary"></param>
-    /// <returns></returns>
-    private static CommonDatasModel CreateCommonData(TableSummary tableSummary, ApplicationDbContext _context)
-    {
-        var applicationForm =
-            _context.ApplicationForms.SingleOrDefault(form => form.ApplicationFormID == tableSummary.ApplicationFormID);
-        return new CommonDatasModel(applicationForm, tableSummary);
+        if (!latestSummaries.Any())
+            return new List<CommonDatasModel>();
+
+        // 2️⃣ 一次性查所有 ApplicationForms（解决 N+1）
+        var formIds = latestSummaries.Select(x => x.ApplicationFormID).ToList();
+
+        var query = _context.ApplicationForms
+            .Where(f => formIds.Contains(f.ApplicationFormID));
+
+        if (yearDate != 0)
+        {
+            var start = new DateTime(yearDate, 1, 1);
+            var end = start.AddYears(1);
+
+            query = query.Where(f => f.ApprovalDate >= start && f.ApprovalDate < end);
+        }
+
+        var applicationForms = await query
+            .AsNoTracking()
+            .ToDictionaryAsync(f => f.ApplicationFormID);
+
+
+        // 3️⃣ 内存组装
+        var result = latestSummaries
+            .Where(s => applicationForms.ContainsKey(s.ApplicationFormID))
+            .Select(s => new CommonDatasModel(
+                applicationForms[s.ApplicationFormID],
+                s))
+            .ToList();
+
+        return result;
     }
 
     #endregion
