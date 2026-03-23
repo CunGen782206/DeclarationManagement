@@ -35,6 +35,11 @@ public class ApprovalsController : ControllerBase
             return BadRequest("请求数据无效。");
         }
 
+        if (approvalCombineModel.DeemedAmount >= 999999)
+        {
+            return BadRequest("金额过大，请重新填写");
+        }
+
         var approvalUser = await _context.Users.SingleOrDefaultAsync(u =>
             u.UserID == approvalCombineModel.UserID); //当前审核用户
 

@@ -105,7 +105,7 @@ public class PublicController : ControllerBase
 
         // 2. 获取数据（直接带年份过滤）
         var listDate = await GetCommonDatas(user.UserID, yearDate);
-
+        
         return Ok(listDate);
     }
     
@@ -128,7 +128,7 @@ public class PublicController : ControllerBase
         }
 
         // 一次性查询 + 映射
-        return await query
+        return await query.OrderByDescending(f => f.ApplicationFormID)
             .Select(form => new CommonDatasModel(form))
             .ToListAsync();
     }
@@ -173,7 +173,7 @@ public class PublicController : ControllerBase
             .Where(s => applicationForms.ContainsKey(s.ApplicationFormID))
             .Select(s => new CommonDatasModel(
                 applicationForms[s.ApplicationFormID],
-                s))
+                s)).OrderByDescending(s=>s.FormID).ThenBy(s=>s.Decision)
             .ToList();
 
         return result;
@@ -214,7 +214,7 @@ public class PublicController : ControllerBase
                 form.ApprovalDate < end);
         }
 
-        return await query
+        return await query.OrderByDescending(f => f.ApplicationFormID)
             .Select(form => new CommonDatasModel(form))
             .ToListAsync();
     }
